@@ -2,7 +2,7 @@ import pygame
 import random
 
 pygame.init()
-
+pygame.mixer.music.load('music/rolling_dice.mp3')
 display_info = pygame.display.Info()
 screen_width = display_info.current_w
 screen_height = display_info.current_h
@@ -22,9 +22,11 @@ class Board:
     ]
 
     def create(self):
-        self.dices = [Dice(x, y) for x, y in self.POSITIONS]
+        self.dices = [Dice(x, y, 6) for x, y in self.POSITIONS]
         for dice in self.dices:
             dice.draw(6)
+
+    
 
 
 class Dice:
@@ -47,10 +49,11 @@ class Dice:
         }
     }
 
-    def __init__(self, x, y, locked=False):
+    def __init__(self, x, y,value, locked=False):
         self.x = x
         self.y = y
         self.locked = locked
+        self.value = value
 
     def draw(self, number):
         if self.locked != True:
@@ -64,11 +67,9 @@ class Dice:
             self.animation()
             #
     def animation(self):
-        for i in range(4):
-            for l in range(6):
-                random_number = random.randint(1, 6)
-                self.draw(random_number)
-            pygame.time.delay(2000)
+            random_number = random.randint(1, 6)
+            self.value = random_number
+            self.draw(random_number)
 
 board = Board()
 board.create()
@@ -83,8 +84,12 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                for i in range(6):
-                    board.dices[i].rolldice()
+                pygame.mixer.music.play()
+                for l in range(6):
+                    for i in range(6):
+                        board.dices[i].rolldice()
+                    pygame.time.delay(200)
+                print(board.dices[0].value)
                 # i = 0
                 # while i < 100:
                 #     # Your code here

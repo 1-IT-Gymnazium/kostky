@@ -59,13 +59,14 @@ class Dice:
         }
     }
 
-    def __init__(self, x, y, value, locked=False):
+    def __init__(self, x, y, value, locked=False, counted=False):
         self.x = x
         self.y = y
         self.locked = locked
         self.value = value
         self.x_end = x + (self.SIZE * screen_width)
         self.y_end = y + (self.SIZE * screen_width)
+        self.counted = counted
 
     def draw(self, number):
         if self.locked != True:
@@ -103,14 +104,18 @@ while running:
                 for l in range(6):
                     for i in range(6):
                         board.dices[i].rolldice()
+                        if board.dices[i].locked:
+                            board.dices[i].counted = True
                     pygame.time.delay(200)
+
                 print(board.dices[0].value)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             dice = board.get_dice(*board.get_position())
-            if dice:
-                dice.locked = True
-                dice.draw(dice.value)
-                pygame.display.flip()
+            if dice and not dice.counted:
+                dice.locked = not dice.locked
+                for dice in board.dices:
+                    dice.draw(dice.value)
+                    pygame.display.flip()
             # i = 0
             # while i < 100:
             #     # Your code here

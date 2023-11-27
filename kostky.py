@@ -11,6 +11,9 @@ screen_width = display_info.current_w
 screen_height = display_info.current_h
 window = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREEN)
 black = pygame.color.Color('#000000')
+white = pygame.color.Color('#FFFFFF')
+blue = pygame.color.Color('#6c8cbf')
+font = pygame.font.Font(None, 36)
 
 
 class Board:
@@ -28,6 +31,9 @@ class Board:
         self.dices = [Dice(x, y, 6) for x, y in self.POSITIONS]
         for dice in self.dices:
             dice.draw(6)
+        self.buttons = [Button("Throw"),Button("Next player",y = screen_height * 0.5 + screen_width * 0.05)]
+        for button in self.buttons:
+            button.draw()
 
     def get_position(self):
         return pygame.mouse.get_pos()
@@ -78,12 +84,28 @@ class Dice:
     def rolldice(self):
         if self.locked != True:
             self.animation()
-            #
 
     def animation(self):
         random_number = random.randint(1, 6)
         self.value = random_number
         self.draw(random_number)
+
+
+class Button:
+    def __init__(self, text, color=black, width=150, height=75, x=screen_width * 0.5 + screen_width * 0.25,
+                 y=screen_height * 0.5 - screen_width * 0.05):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.text = text
+        self.color = color
+
+    def draw(self):
+        pygame.draw.rect(window, blue, (self.x, self.y, self.width, self.height))
+        text = font.render(self.text, True, self.color)
+        text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        window.blit(text, text_rect)
 
 
 board = Board()

@@ -13,6 +13,7 @@ window = pygame.display.set_mode((screen_width, screen_height), pygame.FULLSCREE
 black = pygame.color.Color('#000000')
 white = pygame.color.Color('#FFFFFF')
 blue = pygame.color.Color('#6c8cbf')
+grey = pygame.color.Color('#928383')
 font = pygame.font.Font(None, 36)
 
 
@@ -30,10 +31,15 @@ class Board:
     def create(self):
         self.dices = [Dice(x, y, 6) for x, y in self.POSITIONS]
         for dice in self.dices:
-            dice.draw(6)
-        self.buttons = [Button("Throw"),Button("Next player",y = screen_height * 0.5 + screen_width * 0.05)]
+            dice.draw()
+        self.buttons = [ThrowButton("Throw",back_color=grey), NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05)]
         for button in self.buttons:
             button.draw()
+        self.drawable_objects = [*self.dices, *self.buttons]
+
+    def draw(self):
+        for object in self.drawable_objects:
+            object.draw()
 
     def get_position(self):
         return pygame.mouse.get_pos()
@@ -42,7 +48,10 @@ class Board:
         for dice in self.dices:
             if (x >= dice.x and x <= dice.x_end) and (y >= dice.y and y <= dice.y_end):
                 return dice
-
+    def get_button(self, x, y):
+        for button in self.buttons:
+            if (x >= button.x and x <= button.x_end) and (y >= button.y and y <= button.y_end):
+                return button
 
 class Dice:
     SIZE = 0.08
@@ -74,11 +83,11 @@ class Dice:
         self.y_end = y + (self.SIZE * screen_width)
         self.counted = counted
 
-    def draw(self, number):
+    def draw(self):
         if self.locked != True:
-            window.blit(self.dice_imgs["unlocked_imgs"][number], (self.x, self.y))
+            window.blit(self.dice_imgs["unlocked_imgs"][self.value], (self.x, self.y))
         else:
-            window.blit(self.dice_imgs["locked_imgs"][number], (self.x, self.y))
+            window.blit(self.dice_imgs["locked_imgs"][self.value], (self.x, self.y))
         pygame.display.flip()
 
     def rolldice(self):
@@ -88,24 +97,56 @@ class Dice:
     def animation(self):
         random_number = random.randint(1, 6)
         self.value = random_number
-        self.draw(random_number)
+        self.draw()
 
 
 class Button:
-    def __init__(self, text, color=black, width=150, height=75, x=screen_width * 0.5 + screen_width * 0.25,
+    def __init__(self, text, color=black, back_color=blue, width=150, height=75,
+                 x=screen_width * 0.5 + screen_width * 0.25,
                  y=screen_height * 0.5 - screen_width * 0.05):
         self.width = width
         self.height = height
         self.x = x
         self.y = y
+        self.x_end = x + width
+        self.y_end = y + height
         self.text = text
         self.color = color
+        self.back_color = back_color
 
     def draw(self):
-        pygame.draw.rect(window, blue, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(window, self.back_color, (self.x, self.y, self.width, self.height),border_radius=50)
         text = font.render(self.text, True, self.color)
         text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         window.blit(text, text_rect)
+
+class ThrowButton(Button):
+
+    def action(self):
+        random_sound = random.choice(sounds)
+        random_sound.play()
+        for l in range(6):
+            for i in range(6):
+                board.dices[i].rolldice()
+                if board.dices[i].locked:
+                    board.dices[i].counted = True
+            pygame.time.delay(200)
+    def check(self):
+        pass
+
+class NextPlayerButton(Button):
+
+    def action(self):
+        random_sound = random.choice(sounds)
+        random_sound.play()
+        for l in range(6):
+            for i in range(6):
+                board.dices[i].rolldice()
+                if board.dices[i].locked:
+                    board.dices[i].counted = True
+            pygame.time.delay(200)
+
+
 
 
 board = Board()
@@ -121,25 +162,22 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                random_sound = random.choice(sounds)
-                random_sound.play()
-                for l in range(6):
-                    for i in range(6):
-                        board.dices[i].rolldice()
-                        if board.dices[i].locked:
-                            board.dices[i].counted = True
-                    pygame.time.delay(200)
-
-                print(board.dices[0].value)
+                pass
         elif event.type == pygame.MOUSEBUTTONDOWN:
             dice = board.get_dice(*board.get_position())
+            button = board.get_button(*board.get_position())
             if dice and not dice.counted:
                 dice.locked = not dice.locked
+                print(dice.value)
                 for dice in board.dices:
-                    dice.draw(dice.value)
-                    pygame.display.flip()
-            # i = 0
-            # while i < 100:
-            #     # Your code here
-            #     Dice.rolldice()
-            #     i += 1
+                    pass
+                    # dice.draw()
+            elif button:
+                button.action()
+        board.draw()
+        pygame.display.flip()
+        # i = 0
+        # while i < 100:
+        #     # Your code here
+        #     Dice.rolldice()
+        #     i += 1

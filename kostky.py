@@ -152,13 +152,14 @@ class NextPlayerButton(Button):
 board = Board()
 board.create()
 pygame.display.flip()
+DiceVlaues = []
 
 window.fill(black)
 running = True
 while running:
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
@@ -168,11 +169,17 @@ while running:
             button = board.get_button(*board.get_position())
             if dice and not dice.counted:
                 dice.locked = not dice.locked
-                print(dice.value)
+                #print(dice.value)
+                if dice.locked == True:
+                    DiceVlaues.append(dice.value)
+                else:
+                    DiceVlaues.remove(dice.value)
                 for dice in board.dices:
                     pass
-                    # dice.draw()
+                    # dice.draw()S
             elif button:
+                print(DiceVlaues)
+                DiceVlaues.clear()
                 button.action()
         board.draw()
         pygame.display.flip()

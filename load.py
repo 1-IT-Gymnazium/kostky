@@ -1,4 +1,4 @@
-#dices = [1,5]
+dices = [5,1]
 def rules(dices):
     NumberOfDices = len(dices)
     dices.sort()
@@ -72,7 +72,7 @@ def rules(dices):
                 return dices[0]*200+50
         #čtveřice + 1
         elif dices[4] == dices[1] == dices[2] == dices[3] and dices[0] == 1:
-            return dices[4]*200+100
+            return dices[4]*200+100    
         #čtveřice + 5
         elif dices[4] == dices[1] == dices[2] == dices[3] and dices[0] == 5:
             return dices[4]*200+50
@@ -96,7 +96,7 @@ def rules(dices):
         elif dices[3] == dices[4] == dices[2] and dices[0] == 1 and dices[1] == 5 or dices[3] == dices[1] == dices[2] and dices[0] == 1 and dices[4] == 5:
             return dices[3]*100+150
     elif NumberOfDices == 6:
-        #šestice
+        #šestice 
         if dices[0] == dices[1] == dices[2] == dices[3] == dices[4] == dices[5]:
             if dices[0] == 1:
                 return 8000
@@ -148,3 +148,4 @@ def rules(dices):
         #trojce + dvojice 5 + 1
         elif dices[0] == 1 and dices[1] == dices[2] == 5 and dices[3] == dices[4] == dices[5] or dices[0] == 1 and dices[1] == dices[2] == dices[3] and dices[4] == dices[5] == 5:
             return dices[3]*100+200
+print(rules(dices))

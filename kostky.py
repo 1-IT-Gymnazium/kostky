@@ -1,6 +1,7 @@
 import pygame
 import random
 
+from load import rules
 pygame.init()
 sound1 = pygame.mixer.Sound('music/rolling_dice.mp3')
 sound2 = pygame.mixer.Sound('music/rolling_dice2.mp3')
@@ -36,6 +37,7 @@ class Board:
         for button in self.buttons:
             button.draw()
         self.drawable_objects = [*self.dices, *self.buttons]
+        self.players = [Player("david")]
 
     def draw(self):
         for object in self.drawable_objects:
@@ -137,28 +139,43 @@ class ThrowButton(Button):
 class NextPlayerButton(Button):
 
     def action(self):
-        random_sound = random.choice(sounds)
-        random_sound.play()
-        for l in range(6):
-            for i in range(6):
-                board.dices[i].rolldice()
-                if board.dices[i].locked:
-                    board.dices[i].counted = True
-            pygame.time.delay(200)
+        board.players[0].set_score()
+        print(board.players[0].score)
+
+class Player:
+    def __init__(self,name):
+        self.__score = 0
+        self.__temp_score = 0
+        self.name = name
 
 
+    @property
+    def temp_score(self):
+        return self.__temp_score
 
+    @temp_score.setter
+    def temp_score(self, value):
+        self.__temp_score += value
+
+    @property
+    def score(self):
+        return self.__score
+
+    def set_score(self):
+        self.__score += self.__temp_score
+        self.__temp_score = 0
 
 board = Board()
 board.create()
 pygame.display.flip()
+DiceVlaues = []
 
 window.fill(black)
 running = True
 while running:
 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
@@ -168,11 +185,19 @@ while running:
             button = board.get_button(*board.get_position())
             if dice and not dice.counted:
                 dice.locked = not dice.locked
-                print(dice.value)
+                #print(dice.value)
+                if dice.locked == True:
+                    DiceVlaues.append(dice.value)
+                else:
+                    DiceVlaues.remove(dice.value)
                 for dice in board.dices:
                     pass
-                    # dice.draw()
+                    # dice.draw()S
             elif button:
+                if rules(DiceVlaues):
+                    board.players[0].temp_score = rules(DiceVlaues)
+
+                DiceVlaues.clear()
                 button.action()
         board.draw()
         pygame.display.flip()

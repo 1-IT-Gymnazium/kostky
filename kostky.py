@@ -35,7 +35,8 @@ class Board:
         for dice in self.dices:
             dice.draw()
         self.buttons = [ThrowButton("Throw", back_color=grey),
-                        NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05)]
+                        NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05),
+                        KeepDiceButton("Keep dice", x = screen_width/4),ResetDiceButton("reset dice",x = screen_width/4, y=screen_height * 0.5 + screen_width * 0.05)]
         for button in self.buttons:
             button.draw()
         self.score_rec = ScoreDisplay("Temp Score = 0")
@@ -43,8 +44,6 @@ class Board:
         self.drawable_objects = [*self.dices, *self.buttons, self.score_rec]
         self.players = [Player("david")]
         self.buttons[0].action()
-        print (screen_width)
-        print (screen_height)
     def draw(self):
         for object in self.drawable_objects:
             object.draw()
@@ -86,7 +85,6 @@ class Board:
         for dice in self.dices:
             dice.locked = False
             dice.counted = False
-
 
 class Dice:
     SIZE = 0.08
@@ -180,7 +178,6 @@ class ThrowButton(Button):
         board.players[0].temp_score = rules(dice_values)
         board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
         board.score_rec.draw()
-
         dice_values.clear()
 
     def check(self):
@@ -190,10 +187,23 @@ class ThrowButton(Button):
 class NextPlayerButton(Button):
 
     def action(self):
+        ResetDiceButton(Button).action()
+    def write_dice_to_score(self):
         board.players[0].temp_score = rules(dice_values)
+        board.players[0].reset_temp_score()
+        board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
+        board.score_rec.draw()
+        dice_values.clear()
+
+class KeepDiceButton(Button):
+    def action(self):
+        pass
+class ResetDiceButton(Button):
+    def action(self):
         board.players[0].set_score()
         print(board.players[0].score)
-
+        board.unlock_all_dices()
+        ThrowButton(button).action()
 
 class Player:
     def __init__(self, name):
@@ -215,6 +225,9 @@ class Player:
 
     def set_score(self):
         self.__score += self.__temp_score
+        self.__temp_score = 0
+
+    def reset_temp_score(self):
         self.__temp_score = 0
 
 

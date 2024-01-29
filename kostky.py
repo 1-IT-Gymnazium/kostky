@@ -36,14 +36,17 @@ class Board:
             dice.draw()
         self.buttons = [ThrowButton("Throw", back_color=grey),
                         NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05),
-                        KeepDiceButton("Keep dice", x = screen_width/4),ResetDiceButton("reset dice",x = screen_width/4, y=screen_height * 0.5 + screen_width * 0.05)]
+                        KeepDiceButton("Keep dice", x=screen_width / 4, visible=False),
+                        ResetDiceButton("reset dice", x=screen_width / 4, y=screen_height * 0.5 + screen_width * 0.05,
+                                        visible=False)]
         for button in self.buttons:
             button.draw()
         self.score_rec = ScoreDisplay("Temp Score = 0")
         self.score_rec.draw()
         self.drawable_objects = [*self.dices, *self.buttons, self.score_rec]
         self.players = [Player("david")]
-        self.buttons[0].action()
+        self.throw_unselected_dices()
+
     def draw(self):
         for object in self.drawable_objects:
             object.draw()
@@ -77,15 +80,34 @@ class Board:
 
     def check_all_dices_locked(self):
         for dice in self.dices:
-            if not dice.locked:
+            if not dice.selected:
                 return False
         return True
 
     def unlock_all_dices(self):
         for dice in self.dices:
-            dice.locked = False
+            dice.selected = False
             dice.counted = False
 
+    def lock_dices(self):
+        for dice in self.dices:
+            dice.locked = True
+    def unlock_dices(self):
+        for dice in self.dices:
+            dice.locked = False
+    def throw_unselected_dices(self):
+        for l in range(6):
+            for i in range(6):
+                self.dices[i].rolldice()
+                if self.dices[i].selected:
+                    self.dices[i].counted = True
+            pygame.time.delay(200)
+    def show_next_player_buttons(self):
+        self.buttons[2].show()
+        self.buttons[3].show()
+    def hide_next_player_buttons(self):
+        self.buttons[2].hide()
+        self.buttons[3].hide()
 class Dice:
     SIZE = 0.08
     dice_imgs = {
@@ -107,17 +129,18 @@ class Dice:
         }
     }
 
-    def __init__(self, x, y, value, locked=False, counted=False):
+    def __init__(self, x, y, value, selected=False, counted=False, locked=False):
         self.x = x
         self.y = y
-        self.locked = locked
+        self.selected = selected
         self.value = value
         self.x_end = x + (self.SIZE * screen_width)
         self.y_end = y + (self.SIZE * screen_width)
         self.counted = counted
+        self.locked = locked
 
     def draw(self):
-        if self.locked != True:
+        if self.selected != True:
             window.blit(self.dice_imgs["unlocked_imgs"][self.value], (self.x, self.y))
         else:
             window.blit(self.dice_imgs["locked_imgs"][self.value], (self.x, self.y))
@@ -128,7 +151,7 @@ class Dice:
         checks if the dice is locked or not, if not it calls animation to roll the dice.
         :example: rolldice()
         '''
-        if self.locked != True:
+        if self.selected != True:
             self.animation()
 
     def animation(self):
@@ -144,7 +167,8 @@ class Dice:
 class Button:
     def __init__(self, text, color=black, back_color=blue, width=150, height=75,
                  x=screen_width * 0.5 + screen_width * 0.25,
-                 y=screen_height * 0.5 - screen_width * 0.05):
+                 y=screen_height * 0.5 - screen_width * 0.05,
+                 visible=True):
         self.width = width
         self.height = height
         self.x = x
@@ -154,25 +178,35 @@ class Button:
         self.text = text
         self.color = color
         self.back_color = back_color
+        self.visible = visible
 
     def draw(self):
-        pygame.draw.rect(window, self.back_color, (self.x, self.y, self.width, self.height), border_radius=15)
-        text = font.render(self.text, True, self.color)
-        text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
-        window.blit(text, text_rect)
+        if self.visible:
+            pygame.draw.rect(window, self.back_color, (self.x, self.y, self.width, self.height), border_radius=15)
+            text = font.render(self.text, True, self.color)
+            text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+            window.blit(text, text_rect)
+
+    def hide(self):
+        self.visible = False
+
+    def show(self):
+        self.visible = True
 
 
 class ThrowButton(Button):
 
     def action(self):
+        if rules(dice_values):
+            self.write_dice_to_score()
+            self.sound()
+            board.throw_unselected_dices()
+
+
+
+    def sound(self):
         random_sound = random.choice(sounds)
         random_sound.play()
-        for l in range(6):
-            for i in range(6):
-                board.dices[i].rolldice()
-                if board.dices[i].locked:
-                    board.dices[i].counted = True
-            pygame.time.delay(200)
 
     def write_dice_to_score(self):
         board.players[0].temp_score = rules(dice_values)
@@ -187,23 +221,36 @@ class ThrowButton(Button):
 class NextPlayerButton(Button):
 
     def action(self):
-        ResetDiceButton(Button).action()
-    def write_dice_to_score(self):
-        board.players[0].temp_score = rules(dice_values)
-        board.players[0].reset_temp_score()
-        board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
-        board.score_rec.draw()
-        dice_values.clear()
+        if rules(dice_values):
+            board.show_next_player_buttons()
+            board.players[0].temp_score = rules(dice_values)
+            board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
+            board.score_rec.draw()
+            dice_values.clear()
+            board.lock_dices()
+        else:
+            dice_values.clear()
+            board.players[0].reset_temp_score()
+            board.unlock_all_dices()
+            board.throw_unselected_dices()
+
+
 
 class KeepDiceButton(Button):
     def action(self):
-        pass
+        if self.visible:
+            pass
+
+
 class ResetDiceButton(Button):
     def action(self):
-        board.players[0].set_score()
-        print(board.players[0].score)
-        board.unlock_all_dices()
-        ThrowButton(button).action()
+        if self.visible:
+            board.hide_next_player_buttons()
+            board.players[0].reset_temp_score()
+            board.players[0].set_score()
+            board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
+            board.unlock_all_dices()
+            board.throw_unselected_dices()
 
 class Player:
     def __init__(self, name):
@@ -232,8 +279,8 @@ class Player:
 
 
 class ScoreDisplay:
-    def __init__(self, text, color=blue, text_color=black, width= screen_width/4.2, height= screen_height / 9.6,
-                 x=screen_width * 0.5 - (0.5 * screen_width/4.2),
+    def __init__(self, text, color=blue, text_color=black, width=screen_width / 4.2, height=screen_height / 9.6,
+                 x=screen_width * 0.5 - (0.5 * screen_width / 4.2),
                  y=screen_height * 0.1):
         self.width = width
         self.height = height
@@ -261,6 +308,7 @@ FirstDiceCounter = 0
 window.fill(black)
 running = True
 while running:
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             running = False
@@ -270,10 +318,10 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             dice = board.get_dice(*board.get_position())
             button = board.get_button(*board.get_position())
-            if dice and not dice.counted:
-                dice.locked = not dice.locked
+            if dice and not dice.counted and not dice.locked:
+                dice.selected = not dice.selected
                 # print(dice.value)
-                if dice.locked == True:
+                if dice.selected == True:
                     dice_values.append(dice.value)
                 else:
                     dice_values.remove(dice.value)
@@ -281,12 +329,9 @@ while running:
                     pass
                     # dice.draw()S
             elif button:
-                if rules(dice_values):
-                    button.write_dice_to_score()
-                    if board.check_all_dices_locked():
-                        board.unlock_all_dices()
-                    button.action()
-
+                if board.check_all_dices_locked():
+                    board.unlock_all_dices()
+                button.action()
         board.draw()
         pygame.display.flip()
         # i = 0

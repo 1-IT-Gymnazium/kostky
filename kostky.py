@@ -34,11 +34,11 @@ class Board:
         self.dices = [Dice(x, y, 6) for x, y in self.POSITIONS]
         for dice in self.dices:
             dice.draw()
-        self.buttons = [ThrowButton("Throw", back_color=grey),
+        self.buttons = [ThrowButton("Throw"),
                         NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05),
-                        KeepDiceButton("Keep dice", x=screen_width / 4, visible=False),
+                        KeepDiceButton("Keep dice", x=screen_width / 4, visible=False, back_color=black),
                         ResetDiceButton("reset dice", x=screen_width / 4, y=screen_height * 0.5 + screen_width * 0.05,
-                                        visible=False)]
+                                        visible=False,back_color=black)]
         for button in self.buttons:
             button.draw()
         self.score_rec = ScoreDisplay("Temp Score = 0")
@@ -105,9 +105,13 @@ class Board:
     def show_next_player_buttons(self):
         self.buttons[2].show()
         self.buttons[3].show()
+        self.buttons[2].back_color = blue
+        self.buttons[3].back_color = blue
     def hide_next_player_buttons(self):
         self.buttons[2].hide()
         self.buttons[3].hide()
+        self.buttons[2].back_color = black
+        self.buttons[3].back_color = black
 class Dice:
     SIZE = 0.08
     dice_imgs = {
@@ -181,11 +185,10 @@ class Button:
         self.visible = visible
 
     def draw(self):
-        if self.visible:
-            pygame.draw.rect(window, self.back_color, (self.x, self.y, self.width, self.height), border_radius=15)
-            text = font.render(self.text, True, self.color)
-            text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
-            window.blit(text, text_rect)
+        pygame.draw.rect(window, self.back_color, (self.x, self.y, self.width, self.height), border_radius=15)
+        text = font.render(self.text, True, self.color)
+        text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        window.blit(text, text_rect)
 
     def hide(self):
         self.visible = False
@@ -251,6 +254,7 @@ class ResetDiceButton(Button):
             board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
             board.unlock_all_dices()
             board.throw_unselected_dices()
+            self.draw()
 
 class Player:
     def __init__(self, name):

@@ -254,7 +254,6 @@ class ResetDiceButton(Button):
             board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
             board.unlock_all_dices()
             board.throw_unselected_dices()
-            self.draw()
 
 class Player:
     def __init__(self, name):

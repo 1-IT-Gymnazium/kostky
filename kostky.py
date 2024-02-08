@@ -1,4 +1,5 @@
 import pygame
+
 import random
 
 from load import rules
@@ -38,14 +39,15 @@ class Board:
                         NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.05),
                         KeepDiceButton("Keep dice", x=screen_width / 4, visible=False, back_color=black),
                         ResetDiceButton("reset dice", x=screen_width / 4, y=screen_height * 0.5 + screen_width * 0.05,
-                                        visible=False,back_color=black)]
+                                        visible=False, back_color=black)]
         for button in self.buttons:
             button.draw()
         self.score_rec = ScoreDisplay("Temp Score = 0")
         self.score_rec.draw()
         self.drawable_objects = [*self.dices, *self.buttons, self.score_rec]
-        self.players = [Player("david")]
+        self.players = [Player("david"), Player("oliver")]
         self.throw_unselected_dices()
+        self.player = 0
 
     def draw(self):
         for object in self.drawable_objects:
@@ -88,13 +90,16 @@ class Board:
         for dice in self.dices:
             dice.selected = False
             dice.counted = False
+            dice.locked = False
 
     def lock_dices(self):
         for dice in self.dices:
             dice.locked = True
+
     def unlock_dices(self):
         for dice in self.dices:
             dice.locked = False
+
     def throw_unselected_dices(self):
         for l in range(6):
             for i in range(6):
@@ -102,16 +107,26 @@ class Board:
                 if self.dices[i].selected:
                     self.dices[i].counted = True
             pygame.time.delay(200)
+
     def show_next_player_buttons(self):
         self.buttons[2].show()
         self.buttons[3].show()
         self.buttons[2].back_color = blue
         self.buttons[3].back_color = blue
+
     def hide_next_player_buttons(self):
         self.buttons[2].hide()
         self.buttons[3].hide()
         self.buttons[2].back_color = black
         self.buttons[3].back_color = black
+
+    def next_player(self):
+        if len(self.players) - 1 == self.player:
+            self.player = 0
+        else:
+            self.player += 1
+
+
 class Dice:
     SIZE = 0.08
     dice_imgs = {
@@ -205,8 +220,6 @@ class ThrowButton(Button):
             self.sound()
             board.throw_unselected_dices()
 
-
-
     def sound(self):
         random_sound = random.choice(sounds)
         random_sound.play()
@@ -234,15 +247,17 @@ class NextPlayerButton(Button):
         else:
             dice_values.clear()
             board.players[0].reset_temp_score()
+            board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
             board.unlock_all_dices()
             board.throw_unselected_dices()
-
 
 
 class KeepDiceButton(Button):
     def action(self):
         if self.visible:
-            pass
+            board.hide_next_player_buttons()
+            board.throw_unselected_dices()
+            board.unlock_dices()
 
 
 class ResetDiceButton(Button):
@@ -255,11 +270,13 @@ class ResetDiceButton(Button):
             board.unlock_all_dices()
             board.throw_unselected_dices()
 
+
 class Player:
     def __init__(self, name):
         self.__score = 0
         self.__temp_score = 0
         self.name = name
+
 
     @property
     def temp_score(self):

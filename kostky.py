@@ -42,10 +42,12 @@ class Board:
                                         visible=False, back_color=black)]
         for button in self.buttons:
             button.draw()
+        self.players = [Player("david"), Player("oliver"), Player("pomeranc")]
         self.score_rec = ScoreDisplay("Temp Score = 0")
         self.score_rec.draw()
-        self.drawable_objects = [*self.dices, *self.buttons, self.score_rec]
-        self.players = [Player("david"), Player("oliver")]
+        self.player_rec = PlayerDisplay("rewqw")#PlayerDisplay(f"temp score is {self.players[0]}")
+        self.player_rec.draw()
+        self.drawable_objects = [*self.dices, *self.buttons, self.score_rec, self.player_rec]
         self.throw_unselected_dices()
         self.player = 0
 
@@ -101,6 +103,7 @@ class Board:
             dice.locked = False
 
     def throw_unselected_dices(self):
+        ThrowButton.sound(self)
         for l in range(6):
             for i in range(6):
                 self.dices[i].rolldice()
@@ -248,6 +251,7 @@ class NextPlayerButton(Button):
             dice_values.clear()
             board.players[0].reset_temp_score()
             board.score_rec.text = f"temp score is {str(board.players[0].temp_score)}"
+            board.player_rec.text = str(Player.my_name)
             board.unlock_all_dices()
             board.throw_unselected_dices()
 
@@ -317,7 +321,25 @@ class ScoreDisplay:
         text = font.render(self.text, True, self.text_color)
         text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
         window.blit(text, text_rect)
-
+class PlayerDisplay:
+    def __init__(self, text, color=blue, text_color=black, width=screen_width / 10, height=screen_width / 10,
+                 x=screen_width * 0.5 + (screen_width * 0.5)* 0.5,
+                 y=screen_height * 0.1):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.x_end = x + width
+        self.y_end = y + height
+        self.text = text
+        self.color = color
+        self.text_color = text_color
+    
+    def draw(self):
+        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height), border_radius=15)
+        text = font.render(self.text, True, self.text_color)
+        text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        window.blit(text, text_rect)
 
 board = Board()
 board.create()

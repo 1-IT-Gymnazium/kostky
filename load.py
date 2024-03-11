@@ -3,9 +3,9 @@ dices = [4,1,1]
 
 def rules(dices):
     '''
-    Gets a list a computes score if possible, else returns none.
+    Gets a list and computes the score if possible, else returns none.
    :param dices(list[int]):
-   :return: score(int)
+   :return: int
    :example: rules([1,5,5]) return 200
    '''
 
@@ -64,7 +64,7 @@ def rules(dices):
             elif dices[0] == 5:
                 return dices[1] * 100 + 50
         # dvojce 1 a 5
-        elif dices[0] == dices[1] and dices[2] == dices[3]:
+        elif dices[0] == dices[1] == 1 and dices[2] == dices[3] == 5:
             return 300
     elif NumberOfDices == 5:
         # pětice

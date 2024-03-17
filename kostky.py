@@ -18,6 +18,7 @@ blue = pygame.color.Color('#6c8cbf')
 grey = pygame.color.Color('#928383')
 font = pygame.font.Font(None, 36)
 font2 = pygame.font.Font(None, 74)
+fontdsd = pygame.font.Font('font/SEASRN__.ttf', 36)
 number_of_players = 2
 menu = True
 
@@ -54,7 +55,7 @@ class Board:
         self.buttons = [ThrowButton("Throw"),
                         NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.015),
                         KeepDiceButton("Keep dice", x=screen_width * 0.6 + screen_width * 0.175, y=screen_height * 0.5 - screen_width * 0.05, visible=False, back_color=black),
-                        ResetDiceButton("reset dice", x=screen_width * 0.6 + screen_width * 0.175, y=screen_height * 0.5 + screen_width * 0.015,
+                        ResetDiceButton("Reset dice", x=screen_width * 0.6 + screen_width * 0.175, y=screen_height * 0.5 + screen_width * 0.015,
                                         visible=False, back_color=black)]
         for button in self.buttons:
             button.draw()
@@ -353,16 +354,18 @@ class NextPlayerButton(Button):
         '''
         if self.unlocked:
             if rules(dice_values):
-                self.unlocked = False
-                board.show_next_player_buttons()
-                board.players[board.player].temp_score = rules(dice_values)
-                board.temp_score_holder = board.players[board.player].temp_score
-                board.players[board.player].set_score()
-                board.score_rec.text = f"Temp score - {str(board.temp_score_holder)}"
-                board.score_rec.draw()
-                board.next_player()
-                dice_values.clear()
-                board.lock_dices()
+                    self.unlocked = False
+                    board.show_next_player_buttons()
+                    board.players[board.player].temp_score = rules(dice_values)
+                    board.temp_score_holder = board.players[board.player].temp_score
+                    board.players[board.player].set_score()
+                    board.score_rec.text = f"Temp score - {str(board.temp_score_holder)}"
+                    board.score_rec.draw()
+                    if board.players[board.player].score >= 50:
+                        print("awooga")
+                    board.next_player()
+                    dice_values.clear()
+                    board.lock_dices()
             else:
                 dice_values.clear()
                 board.players[board.player].reset_temp_score()
@@ -386,7 +389,6 @@ class KeepDiceButton(Button):
             board.throw_unselected_dices()
             board.unlock_dices()
             board.buttons[1].unlocked = True
-
 
 class ResetDiceButton(Button):
     def action(self):

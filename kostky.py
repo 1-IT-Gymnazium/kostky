@@ -7,6 +7,7 @@ pygame.init()
 sound1 = pygame.mixer.Sound('music/rolling_dice.mp3')
 sound2 = pygame.mixer.Sound('music/rolling_dice2.mp3')
 sound3 = pygame.mixer.Sound('music/rolling_dice3.mp3')
+victory_sound = pygame.mixer.Sound('music/victory_sound.mp3')
 sounds = [sound1, sound2, sound3]
 display_info = pygame.display.Info()
 screen_width = display_info.current_w
@@ -42,6 +43,8 @@ class Board:
         (screen_width * 0.01, screen_height * 0.48,"Player 6 - 0"),
         (screen_width * 0.01, screen_height * 0.55,"Player 7 - 0"),
         (screen_width * 0.01, screen_height * 0.62,"Player 8 - 0"),
+        (screen_width * 0.01, screen_height * 0.69, "Player 9 - 0"),
+        (screen_width * 0.01, screen_height * 0.76, "Player 10 - 0")
 
     ]
     def create(self):
@@ -56,7 +59,10 @@ class Board:
                         NextPlayerButton("Next player", y=screen_height * 0.5 + screen_width * 0.015),
                         KeepDiceButton("Keep dice", x=screen_width * 0.6 + screen_width * 0.175, y=screen_height * 0.5 - screen_width * 0.05, visible=False, back_color=black),
                         ResetDiceButton("Reset dice", x=screen_width * 0.6 + screen_width * 0.175, y=screen_height * 0.5 + screen_width * 0.015,
-                                        visible=False, back_color=black)]
+                                        visible=False, back_color=black),
+                        PlayAgainButton("Play Again", x=screen_width * 0.4 + screen_width * 0.25, y=screen_height * 0.5 + screen_width * 0.015*5.3,
+                                        visible=False, back_color=black)
+                        ]
         for button in self.buttons:
             button.draw()
         self.player = 0
@@ -64,6 +70,7 @@ class Board:
         self.players = [Player("Player 1"),Player("Player 2")]
         self.score_rec = ScoreDisplay("Temp score - 0")
         self.score_rec.draw()
+        self.victory_screen = VictoryScreen()
         self.player_rec = PlayerDisplay(f"{self.players[self.player].name} is now playing")
         self.player_rec.draw()
         self.player_name_score = [ScoreAndPlayers(x, y, text) for x, y, text in self.DIFFPOSS]
@@ -73,21 +80,33 @@ class Board:
 
     def draw(self):
         '''
-        Draws all the objects
+        Draws all the objects in the drawable_objects list
         :example: draw()
         '''
         for object in self.drawable_objects:
             object.draw()
     def create_menu(self):
+        '''
+        Creates the menu
+        :example: create_menu
+        '''
         self.menu = Menu()
     def draw_names(self):
+        '''
+        Draws all the players
+        :example: draw_names
+        '''
         for x in range(0, number_of_players):
             board.player_name_score[x].draw()
     def create_players(self):
+        '''
+        Creates the rest of the players(the first two are hardcoded in)
+        :example: create_players
+        '''
         for x in range(2, number_of_players):
             self.players.append(Player(f"Player {x+1}"))
-        for x in range(0,number_of_players):
-            print(self.players[x])
+        #for x in range(0,number_of_players):
+            #print(self.players[x])
     def get_position(self):
         '''
         Gets the position of the mouse
@@ -180,6 +199,9 @@ class Board:
         self.buttons[2].back_color = blue
         self.buttons[3].back_color = blue
 
+    def show_play_again_button(self):
+        self.buttons[4].show()
+        self.buttons[4].back_color = blue
     def hide_next_player_buttons(self):
         '''
         Hides the keep dices and reset dices buttons
@@ -242,7 +264,7 @@ class Dice:
 
     def draw(self):
         '''
-        If the dice you clicked on is not selcted, it changes the img to be the
+        If the dice you clicked on is not selected, it changes the img to be the
         selected one and vice versa
         :example: draw()
         '''
@@ -346,23 +368,26 @@ class NextPlayerButton(Button):
 
     def action(self):
         '''
-        Checks if the button is unlocked, if yes it checks the combination of the dices with the rules.
-        If it returns a value it adds the value to teh temporary score and adds the temporary score to the players
-        score, switches to the next player and displays the next player buttons. If the rules don't return a value
-        it resets
-        :example: hide()
+        Checks if the button is unlocked, if yes it checks the combination of the dices with the rules. If it returns
+        a value it adds the value to the temporary score and adds the temporary score to the players score,
+        switches to the next player and displays the next player buttons.If the player has achieved 10000 points it
+        will end the game. If the rules don't return a value it resets.
+        :example: action()
         '''
         if self.unlocked:
             if rules(dice_values):
                     self.unlocked = False
-                    board.show_next_player_buttons()
                     board.players[board.player].temp_score = rules(dice_values)
                     board.temp_score_holder = board.players[board.player].temp_score
                     board.players[board.player].set_score()
                     board.score_rec.text = f"Temp score - {str(board.temp_score_holder)}"
                     board.score_rec.draw()
-                    if board.players[board.player].score >= 50:
-                        print("awooga")
+                    if board.players[board.player].score >= 10000:
+                        board.victory_screen.draw(f"Winner is - {str(board.players[board.player])}")
+                        board.show_play_again_button()
+                        victory_sound.play()
+                    else:
+                        board.show_next_player_buttons()
                     board.next_player()
                     dice_values.clear()
                     board.lock_dices()
@@ -404,6 +429,16 @@ class ResetDiceButton(Button):
             # NextPlayerButton.unlocked = True
             board.buttons[1].unlocked = True
 
+class PlayAgainButton(Button):
+    def action(self):
+        '''
+        If the button is visible, switches to the next player and doesn't reset the dices. Keep the temporary score.
+        :example: action()
+        '''
+        if self.visible:
+            global menu
+            menu = True
+
 
 class Player:
     def __init__(self, name):
@@ -411,18 +446,37 @@ class Player:
         self.__temp_score = 0
         self.name = name
     def __repr__(self):
-        return f"Player({self.name})"
+        '''
+        Returns players name
+        :example: action()
+        '''
+        return f"{self.name}"
 
     @property
     def temp_score(self):
+        '''
+        Returns the temporary score
+        :return: int
+        :example: temp_score(), return 150
+        '''
         return self.__temp_score
 
     @temp_score.setter
     def temp_score(self, value):
+        '''
+        Adds the temporary score to the player score
+        :param: value(int)
+        :example: temp_score(), return 150
+        '''
         self.__temp_score += value
 
     @property
     def score(self):
+        '''
+        Returns the player score
+        :return: int
+        :example: score(), return 1500
+        '''
         return self.__score
 
     def set_score(self):
@@ -523,61 +577,93 @@ class Menu:
         self.y_end = y + height
         self.color = color
         self.text_color = text_color
+        self.menu_run = True
 
-    def draw_text(self, text, font, color, surface, x, y):
+    def draw_text(self, text, font, color, x, y):
+        '''
+        Draws the menu screen
+        :param: text(string)
+        font(font),color(color),x(int),y(int)
+        :example: draw_text('Pub Dice', font2, white, screen_width * 0.4, screen_height * 0.2)
+        '''
         pygame.draw.rect(window, blue, (self.x, self.y, self.width, self.height), border_radius=15)
         textobj = font.render(text, 2, color)
         textrect = textobj.get_rect()
         textrect.topleft = (x, y)
-        surface.blit(textobj, textrect)
+        window.blit(textobj, textrect)
 
     def get_start(self, x, y):
         '''
         Gets coordinates of the click of the mouse and checks if the
         click is on a button. If it is it returns what button it is on.
-        :param x(int),y(int):
-        :return: int
-        :example: get_button(200,200) return 1
+        :param: x(int),y(int)
+        :return: Bool
+        :example: get_start(200,200) return True
         '''
         if (x >= self.x and x <= self.x + self.width) and (y >= self.y and y <= self.y + self.height):
             return True
+class VictoryScreen:
+    def __init__(self, color=blue, text_color=black, width=screen_width / 3, height=screen_width / 12,
+                 x=screen_width * 0.5 - (screen_width / 3) / 2,
+                 y=screen_height * 0.85):
+        self.width = width
+        self.height = height
+        self.x = x
+        self.y = y
+        self.x_end = x + width
+        self.y_end = y + height
+        self.color = color
+        self.text_color = text_color
+
+    def draw(self,  text):
+        '''
+        Draws the player display rectangle
+        :example: draw()
+        '''
+        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.height), border_radius=15)
+        text = font.render(text, True, self.text_color)
+        text_rect = text.get_rect(center=(self.x + self.width // 2, self.y + self.height // 2))
+        window.blit(text, text_rect)
 
 board = Board()
 board.create_menu()
 pygame.display.flip()
 dice_values = []
 FirstDiceCounter = 0
+end = False
 createnumber = 0
 
 running = True
 while running:
     if menu:
+        createnumber = 0
         window.fill(black)
-        board.menu.draw_text('Pub Dice', font2, white, window, screen_width * 0.4, screen_height * 0.2)
-        board.menu.draw_text(f'Number of Players: {number_of_players}', font2, white, window, screen_width * 0.4,
+        board.menu.draw_text('Pub Dice', font2, white, screen_width * 0.4, screen_height * 0.2)
+        board.menu.draw_text(f'Number of Players: {number_of_players}', font2, white, screen_width * 0.4,
                        screen_height * 0.6)
-        board.menu.draw_text('Start', font2, white, window, screen_width * 0.4, screen_height * 0.4)
-    for event in pygame.event.get():
-        if menu:
+        board.menu.draw_text('Start', font2, white, screen_width * 0.4, screen_height * 0.4)
+        for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
                 if event.key == pygame.K_UP or event.key == pygame.K_RIGHT:
-                    number_of_players = min(number_of_players + 1, 8)
+                    number_of_players = min(number_of_players + 1, 10)
                 if event.key == pygame.K_DOWN or event.key == pygame.K_LEFT:
                     number_of_players = max(number_of_players - 1, 2)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if board.menu.get_start(*board.get_position()):
                     menu = False
+                    break
             pygame.display.update()
-        else:
+    else:
+        for event in pygame.event.get():
             if createnumber == 0:
                 window.fill(black)
                 board.create()
                 board.create_players()
-                createnumber = 1
+                createnumber += 1
             if event.type == pygame.QUIT or event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 running = False
             elif event.type == pygame.KEYDOWN:

@@ -4,7 +4,7 @@ dices = [4,1,1]
 def rules(dices):
     '''
     Gets a list and computes the score if possible, else returns none.
-   :param dices(list[int]):
+   :param: dices(list[int])
    :return: int
    :example: rules([1,5,5]) return 200
    '''

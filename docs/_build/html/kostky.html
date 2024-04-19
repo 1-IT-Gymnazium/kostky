@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kostky module &mdash; Hospodský kostky  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="load module" href="load.html" />
+    <link rel="prev" title="src" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Hospodský kostky
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">kostky module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.Board"><code class="docutils literal notranslate"><span class="pre">Board</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.DIFFPOSS"><code class="docutils literal notranslate"><span class="pre">Board.DIFFPOSS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.POSITIONS"><code class="docutils literal notranslate"><span class="pre">Board.POSITIONS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.check_all_dices_locked"><code class="docutils literal notranslate"><span class="pre">Board.check_all_dices_locked()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.create"><code class="docutils literal notranslate"><span class="pre">Board.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.create_menu"><code class="docutils literal notranslate"><span class="pre">Board.create_menu()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.create_players"><code class="docutils literal notranslate"><span class="pre">Board.create_players()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.draw"><code class="docutils literal notranslate"><span class="pre">Board.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.draw_names"><code class="docutils literal notranslate"><span class="pre">Board.draw_names()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.get_button"><code class="docutils literal notranslate"><span class="pre">Board.get_button()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.get_dice"><code class="docutils literal notranslate"><span class="pre">Board.get_dice()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.get_position"><code class="docutils literal notranslate"><span class="pre">Board.get_position()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.hide_next_player_buttons"><code class="docutils literal notranslate"><span class="pre">Board.hide_next_player_buttons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.lock_dices"><code class="docutils literal notranslate"><span class="pre">Board.lock_dices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.next_player"><code class="docutils literal notranslate"><span class="pre">Board.next_player()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.show_next_player_buttons"><code class="docutils literal notranslate"><span class="pre">Board.show_next_player_buttons()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.show_play_again_button"><code class="docutils literal notranslate"><span class="pre">Board.show_play_again_button()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.throw_unselected_dices"><code class="docutils literal notranslate"><span class="pre">Board.throw_unselected_dices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.unlock_all_dices"><code class="docutils literal notranslate"><span class="pre">Board.unlock_all_dices()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Board.unlock_dices"><code class="docutils literal notranslate"><span class="pre">Board.unlock_dices()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Button.draw"><code class="docutils literal notranslate"><span class="pre">Button.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Button.hide"><code class="docutils literal notranslate"><span class="pre">Button.hide()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Button.show"><code class="docutils literal notranslate"><span class="pre">Button.show()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.Dice"><code class="docutils literal notranslate"><span class="pre">Dice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Dice.SIZE"><code class="docutils literal notranslate"><span class="pre">Dice.SIZE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Dice.animation"><code class="docutils literal notranslate"><span class="pre">Dice.animation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Dice.dice_imgs"><code class="docutils literal notranslate"><span class="pre">Dice.dice_imgs</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Dice.draw"><code class="docutils literal notranslate"><span class="pre">Dice.draw()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Dice.rolldice"><code class="docutils literal notranslate"><span class="pre">Dice.rolldice()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.KeepDiceButton"><code class="docutils literal notranslate"><span class="pre">KeepDiceButton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.KeepDiceButton.action"><code class="docutils literal notranslate"><span class="pre">KeepDiceButton.action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.Menu"><code class="docutils literal notranslate"><span class="pre">Menu</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Menu.draw_text"><code class="docutils literal notranslate"><span class="pre">Menu.draw_text()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Menu.get_start"><code class="docutils literal notranslate"><span class="pre">Menu.get_start()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.NextPlayerButton"><code class="docutils literal notranslate"><span class="pre">NextPlayerButton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.NextPlayerButton.action"><code class="docutils literal notranslate"><span class="pre">NextPlayerButton.action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.PlayAgainButton"><code class="docutils literal notranslate"><span class="pre">PlayAgainButton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.PlayAgainButton.action"><code class="docutils literal notranslate"><span class="pre">PlayAgainButton.action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.Player"><code class="docutils literal notranslate"><span class="pre">Player</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Player.reset_temp_score"><code class="docutils literal notranslate"><span class="pre">Player.reset_temp_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Player.score"><code class="docutils literal notranslate"><span class="pre">Player.score</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Player.set_score"><code class="docutils literal notranslate"><span class="pre">Player.set_score()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.Player.temp_score"><code class="docutils literal notranslate"><span class="pre">Player.temp_score</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.PlayerDisplay"><code class="docutils literal notranslate"><span class="pre">PlayerDisplay</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.PlayerDisplay.draw"><code class="docutils literal notranslate"><span class="pre">PlayerDisplay.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.ResetDiceButton"><code class="docutils literal notranslate"><span class="pre">ResetDiceButton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ResetDiceButton.action"><code class="docutils literal notranslate"><span class="pre">ResetDiceButton.action()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.ScoreAndPlayers"><code class="docutils literal notranslate"><span class="pre">ScoreAndPlayers</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ScoreAndPlayers.draw"><code class="docutils literal notranslate"><span class="pre">ScoreAndPlayers.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.ScoreDisplay"><code class="docutils literal notranslate"><span class="pre">ScoreDisplay</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ScoreDisplay.draw"><code class="docutils literal notranslate"><span class="pre">ScoreDisplay.draw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.ThrowButton"><code class="docutils literal notranslate"><span class="pre">ThrowButton</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ThrowButton.action"><code class="docutils literal notranslate"><span class="pre">ThrowButton.action()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ThrowButton.sound"><code class="docutils literal notranslate"><span class="pre">ThrowButton.sound()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.ThrowButton.write_dice_to_score"><code class="docutils literal notranslate"><span class="pre">ThrowButton.write_dice_to_score()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kostky.VictoryScreen"><code class="docutils literal notranslate"><span class="pre">VictoryScreen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#kostky.VictoryScreen.draw"><code class="docutils literal notranslate"><span class="pre">VictoryScreen.draw()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="load.html">load module</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Hospodský kostky</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+      <li class="breadcrumb-item active">kostky module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/kostky.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-kostky">
+<span id="kostky-module"></span><h1>kostky module<a class="headerlink" href="#module-kostky" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.Board">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Board</span></span><a class="reference internal" href="_modules/kostky.html#Board"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>The board</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dices</strong> (<em>list</em>) – a list of all the dices</p></li>
+<li><p><strong>buttons</strong> (<em>list</em>) – a list of all the buttons</p></li>
+<li><p><strong>player</strong> (<em>int</em>) – current player</p></li>
+<li><p><strong>temp_score_holder</strong> (<em>int</em>) – Temporary score holder</p></li>
+<li><p><strong>players</strong> – list of all the players</p></li>
+<li><p><strong>drawable_objects</strong> (<em>list</em>) – list of all the drawable objects</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kostky.Board.DIFFPOSS">
+<span class="sig-name descname"><span class="pre">DIFFPOSS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[(12.8,</span> <span class="pre">93.60000000000001,</span> <span class="pre">'Player</span> <span class="pre">1</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">144.0,</span> <span class="pre">'Player</span> <span class="pre">2</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">194.4,</span> <span class="pre">'Player</span> <span class="pre">3</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">244.8,</span> <span class="pre">'Player</span> <span class="pre">4</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">295.2,</span> <span class="pre">'Player</span> <span class="pre">5</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">345.59999999999997,</span> <span class="pre">'Player</span> <span class="pre">6</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">396.00000000000006,</span> <span class="pre">'Player</span> <span class="pre">7</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">446.4,</span> <span class="pre">'Player</span> <span class="pre">8</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">496.79999999999995,</span> <span class="pre">'Player</span> <span class="pre">9</span> <span class="pre">-</span> <span class="pre">0'),</span> <span class="pre">(12.8,</span> <span class="pre">547.2,</span> <span class="pre">'Player</span> <span class="pre">10</span> <span class="pre">-</span> <span class="pre">0')]</span></em><a class="headerlink" href="#kostky.Board.DIFFPOSS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kostky.Board.POSITIONS">
+<span class="sig-name descname"><span class="pre">POSITIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[(640.0,</span> <span class="pre">232.0),</span> <span class="pre">(512.0,</span> <span class="pre">232.0),</span> <span class="pre">(640.0,</span> <span class="pre">360.0),</span> <span class="pre">(512.0,</span> <span class="pre">360.0),</span> <span class="pre">(640.0,</span> <span class="pre">488.0),</span> <span class="pre">(512.0,</span> <span class="pre">488.0)]</span></em><a class="headerlink" href="#kostky.Board.POSITIONS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.check_all_dices_locked">
+<span class="sig-name descname"><span class="pre">check_all_dices_locked</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.check_all_dices_locked"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.check_all_dices_locked" title="Link to this definition"></a></dt>
+<dd><p>checks if all the dices are locked, if they are it returns True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>If all the dices are locked it returns True, else False</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Bool</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>check_all_dices_locked(), return True</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.create">
+<span class="sig-name descname"><span class="pre">create</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.create"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.create" title="Link to this definition"></a></dt>
+<dd><p>Creates all the objects</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.create_menu">
+<span class="sig-name descname"><span class="pre">create_menu</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.create_menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.create_menu" title="Link to this definition"></a></dt>
+<dd><p>Creates the menu</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.create_players">
+<span class="sig-name descname"><span class="pre">create_players</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.create_players"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.create_players" title="Link to this definition"></a></dt>
+<dd><p>Creates the rest of the players(the first two are hardcoded in)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws all the objects in the drawable_objects list</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.draw_names">
+<span class="sig-name descname"><span class="pre">draw_names</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.draw_names"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.draw_names" title="Link to this definition"></a></dt>
+<dd><p>Draws all the players</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.get_button">
+<span class="sig-name descname"><span class="pre">get_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.get_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.get_button" title="Link to this definition"></a></dt>
+<dd><p>Gets coordinates of the click of the mouse and checks if the
+click is on a button. If it is it returns what button it is on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the coordinates are on a button it returns the button it is on.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#kostky.Button" title="kostky.Button">Button</a></p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>get_button(100,100), return Button</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.get_dice">
+<span class="sig-name descname"><span class="pre">get_dice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.get_dice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.get_dice" title="Link to this definition"></a></dt>
+<dd><p>Gets coordinates of the click of the mouse and checks if the
+click is on a dice. If it is it returns what dice it is on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the coordinates are on a dice it returns the dice value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>get_dice(100,100), return 2</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.get_position">
+<span class="sig-name descname"><span class="pre">get_position</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.get_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.get_position" title="Link to this definition"></a></dt>
+<dd><p>Gets the position of the mouse</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>returns the coordinates of the mouse</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>(int,int)</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>get_position(), returns (100,78)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.hide_next_player_buttons">
+<span class="sig-name descname"><span class="pre">hide_next_player_buttons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.hide_next_player_buttons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.hide_next_player_buttons" title="Link to this definition"></a></dt>
+<dd><p>Hides the keep dices and reset dices buttons</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.lock_dices">
+<span class="sig-name descname"><span class="pre">lock_dices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.lock_dices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.lock_dices" title="Link to this definition"></a></dt>
+<dd><p>locks all the dices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.next_player">
+<span class="sig-name descname"><span class="pre">next_player</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.next_player"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.next_player" title="Link to this definition"></a></dt>
+<dd><p>The current player is changed to the next one.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.show_next_player_buttons">
+<span class="sig-name descname"><span class="pre">show_next_player_buttons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.show_next_player_buttons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.show_next_player_buttons" title="Link to this definition"></a></dt>
+<dd><p>Shows the keep dices and reset dices buttons</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.show_play_again_button">
+<span class="sig-name descname"><span class="pre">show_play_again_button</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.show_play_again_button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.show_play_again_button" title="Link to this definition"></a></dt>
+<dd><p>Shows the play again button</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.throw_unselected_dices">
+<span class="sig-name descname"><span class="pre">throw_unselected_dices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.throw_unselected_dices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.throw_unselected_dices" title="Link to this definition"></a></dt>
+<dd><p>Throws all the unlocked(unselected) dices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.unlock_all_dices">
+<span class="sig-name descname"><span class="pre">unlock_all_dices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.unlock_all_dices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.unlock_all_dices" title="Link to this definition"></a></dt>
+<dd><p>unlocks and uncounts all the dices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Board.unlock_dices">
+<span class="sig-name descname"><span class="pre">unlock_dices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Board.unlock_dices"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Board.unlock_dices" title="Link to this definition"></a></dt>
+<dd><p>unlocks all the dices</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.Button">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Button"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Button" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that defines all of the buttons</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – text on the button</p></li>
+<li><p><strong>color</strong> (<em>color</em>) – color of the text</p></li>
+<li><p><strong>back_color</strong> (<em>color</em>) – color of the button</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the button</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the button</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the button</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the button</p></li>
+<li><p><strong>visible</strong> (<em>bool</em>) – True if the button is visible, False if it is not</p></li>
+<li><p><strong>unlocked</strong> (<em>bool</em>) – True if you can click the button, False if u cant</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Button.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Button.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Button.draw" title="Link to this definition"></a></dt>
+<dd><p>draws all the visible buttons</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Button.hide">
+<span class="sig-name descname"><span class="pre">hide</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Button.hide"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Button.hide" title="Link to this definition"></a></dt>
+<dd><p>hides the next player buttons</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Button.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Button.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Button.show" title="Link to this definition"></a></dt>
+<dd><p>shows the next player buttons</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.Dice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Dice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">counted</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Dice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Dice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that defines all the dices</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the button</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the button</p></li>
+<li><p><strong>value</strong> (<em>int</em>) – the value of the dice</p></li>
+<li><p><strong>selected</strong> (<em>bool</em>) – True if the dice is selected, False if it is not</p></li>
+<li><p><strong>counted</strong> (<em>bool</em>) – True if the dice is counted, False if it is not</p></li>
+<li><p><strong>locked</strong> (<em>bool</em>) – True if the dice is locked, False if it is not</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kostky.Dice.SIZE">
+<span class="sig-name descname"><span class="pre">SIZE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.08</span></em><a class="headerlink" href="#kostky.Dice.SIZE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Dice.animation">
+<span class="sig-name descname"><span class="pre">animation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Dice.animation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Dice.animation" title="Link to this definition"></a></dt>
+<dd><p>gives the dice a random number and draws them.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="kostky.Dice.dice_imgs">
+<span class="sig-name descname"><span class="pre">dice_imgs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'locked_imgs':</span> <span class="pre">{1:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">2:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">3:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">4:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">5:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">6:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;},</span> <span class="pre">'unlocked_imgs':</span> <span class="pre">{1:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">2:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">3:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">4:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">5:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;,</span> <span class="pre">6:</span> <span class="pre">&lt;Surface(102x102x32</span> <span class="pre">SW)&gt;}}</span></em><a class="headerlink" href="#kostky.Dice.dice_imgs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Dice.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Dice.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Dice.draw" title="Link to this definition"></a></dt>
+<dd><p>If the dice you clicked on is not selected, it changes the img to be the
+selected one and vice versa</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Dice.rolldice">
+<span class="sig-name descname"><span class="pre">rolldice</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Dice.rolldice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Dice.rolldice" title="Link to this definition"></a></dt>
+<dd><p>checks if the dice is locked or not, if not it calls animation to roll the dice.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.KeepDiceButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">KeepDiceButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#KeepDiceButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.KeepDiceButton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kostky.Button" title="kostky.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.KeepDiceButton.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#KeepDiceButton.action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.KeepDiceButton.action" title="Link to this definition"></a></dt>
+<dd><p>If the button is visible, switches to the next player and doesn’t reset the dices. Keep the temporary score.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.Menu">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Menu</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">213.33333333333334</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">499.20000000000005</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">273.6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Menu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Menu" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Menu class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color</strong> (<em>color</em>) – color of the rectangle</p></li>
+<li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the rectangle of the start button</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the rectangle of the start button</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the start button</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the start button</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Menu.draw_text">
+<span class="sig-name descname"><span class="pre">draw_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">font</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Menu.draw_text"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Menu.draw_text" title="Link to this definition"></a></dt>
+<dd><p>Draws the menu screen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – the text that will be displayed</p></li>
+<li><p><strong>font</strong> (<em>font</em>) – font of the text</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the text</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the text</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Menu.get_start">
+<span class="sig-name descname"><span class="pre">get_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Menu.get_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Menu.get_start" title="Link to this definition"></a></dt>
+<dd><p>Gets coordinates of the click of the mouse and checks if the
+click is on a button. If it is it returns what button it is on.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the click</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the click</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>If the click is inside the rectangle, return True</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+<dt class="field-even">Example<span class="colon">:</span></dt>
+<dd class="field-even"><p>get_start(), return True</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.NextPlayerButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">NextPlayerButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#NextPlayerButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.NextPlayerButton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kostky.Button" title="kostky.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.NextPlayerButton.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#NextPlayerButton.action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.NextPlayerButton.action" title="Link to this definition"></a></dt>
+<dd><p>Checks if the button is unlocked, if yes it checks the combination of the dices with the rules. If it returns
+a value it adds the value to the temporary score and adds the temporary score to the players score,
+switches to the next player and displays the next player buttons. If the player has achieved 10000 points it
+will end the game. If the rules don’t return a value it resets the dices and switches to the next player.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.PlayAgainButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">PlayAgainButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#PlayAgainButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.PlayAgainButton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kostky.Button" title="kostky.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.PlayAgainButton.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#PlayAgainButton.action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.PlayAgainButton.action" title="Link to this definition"></a></dt>
+<dd><p>If the button is visible, it resets the board and send the player back to the menu.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.Player">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Player"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Player" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Displays the temporary score</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>score</strong> – score of the player</p></li>
+<li><p><strong>temp_score</strong> – temporary score</p></li>
+<li><p><strong>name</strong> (<em>string</em>) – what the temporary score is</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Player.reset_temp_score">
+<span class="sig-name descname"><span class="pre">reset_temp_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Player.reset_temp_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Player.reset_temp_score" title="Link to this definition"></a></dt>
+<dd><p>Resets the temporary score</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kostky.Player.score">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">score</span></span><a class="headerlink" href="#kostky.Player.score" title="Link to this definition"></a></dt>
+<dd><p>Returns the player score</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the player score</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>score(), return 800</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.Player.set_score">
+<span class="sig-name descname"><span class="pre">set_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Player.set_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Player.set_score" title="Link to this definition"></a></dt>
+<dd><p>Adds the temporary score to the players score and resets the temporary score</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="kostky.Player.temp_score">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">temp_score</span></span><a class="headerlink" href="#kostky.Player.temp_score" title="Link to this definition"></a></dt>
+<dd><p>Returns the temporary score</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Returns the temporary score</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+<dt class="field-odd">Example<span class="colon">:</span></dt>
+<dd class="field-odd"><p>temp_score(), return 150</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.PlayerDisplay">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">PlayerDisplay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">426.6666666666667</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">426.66666666666663</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#PlayerDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.PlayerDisplay" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Shows who’s playing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – who is playing</p></li>
+<li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the rectangle</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the rectangle</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the rectangle</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the rectangle</p></li>
+</ul>
+</dd>
+<dt class="field-even">Para m color<span class="colon">:</span></dt>
+<dd class="field-even"><p>color of the rectangle</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.PlayerDisplay.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#PlayerDisplay.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.PlayerDisplay.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws the player display rectangle</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.ResetDiceButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">ResetDiceButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ResetDiceButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ResetDiceButton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kostky.Button" title="kostky.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ResetDiceButton.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ResetDiceButton.action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ResetDiceButton.action" title="Link to this definition"></a></dt>
+<dd><p>If the button is visible, switches to the next player and resets the dices. Resets the temporary score.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.ScoreAndPlayers">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">ScoreAndPlayers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">304.76190476190476</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ScoreAndPlayers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ScoreAndPlayers" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Player display with scores</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the rectangles</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the rectangles</p></li>
+<li><p><strong>text</strong> (<em>string</em>) – player name and score</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the rectangles</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the rectangles</p></li>
+<li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ScoreAndPlayers.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ScoreAndPlayers.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ScoreAndPlayers.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws the current players score rectangle</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.ScoreDisplay">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">ScoreDisplay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">304.76190476190476</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">75.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12.8</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">7.2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ScoreDisplay"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ScoreDisplay" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Displays the temporary score</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>string</em>) – what the temporary score is</p></li>
+<li><p><strong>color</strong> (<em>color</em>) – color of the rectangle</p></li>
+<li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the rectangle</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the rectangle</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinates of the rectangle</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinates of the rectangle</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ScoreDisplay.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ScoreDisplay.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ScoreDisplay.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws the score display rectangle</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.ThrowButton">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">ThrowButton</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">back_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">150.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">74.9952</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">832.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">296.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">visible</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unlocked</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ThrowButton"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ThrowButton" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#kostky.Button" title="kostky.Button"><code class="xref py py-class docutils literal notranslate"><span class="pre">Button</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ThrowButton.action">
+<span class="sig-name descname"><span class="pre">action</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ThrowButton.action"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ThrowButton.action" title="Link to this definition"></a></dt>
+<dd><p>If the selected dices are allowed by the rules it throws all the unselected dices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ThrowButton.sound">
+<span class="sig-name descname"><span class="pre">sound</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ThrowButton.sound"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ThrowButton.sound" title="Link to this definition"></a></dt>
+<dd><p>plays a random sound of rolling dices</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.ThrowButton.write_dice_to_score">
+<span class="sig-name descname"><span class="pre">write_dice_to_score</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#ThrowButton.write_dice_to_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.ThrowButton.write_dice_to_score" title="Link to this definition"></a></dt>
+<dd><p>Takes the score from the value of the dices and adds it to the temporary score.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="kostky.VictoryScreen">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">VictoryScreen</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(108,</span> <span class="pre">140,</span> <span class="pre">191,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(0,</span> <span class="pre">0,</span> <span class="pre">0,</span> <span class="pre">255)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">426.6666666666667</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">106.66666666666667</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">426.66666666666663</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">612.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#VictoryScreen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.VictoryScreen" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Victory screen class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>color</strong> (<em>color</em>) – color of the rectangle</p></li>
+<li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
+<li><p><strong>width</strong> (<em>int</em>) – width of the rectangle</p></li>
+<li><p><strong>height</strong> (<em>int</em>) – height of the rectangle</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – x coordinate of the rectangle</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – y coordinate of the rectangle</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="kostky.VictoryScreen.draw">
+<span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#VictoryScreen.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.VictoryScreen.draw" title="Link to this definition"></a></dt>
+<dd><p>Draws the play again rectangle</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="src" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="load.html" class="btn btn-neutral float-right" title="load module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, David Singer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

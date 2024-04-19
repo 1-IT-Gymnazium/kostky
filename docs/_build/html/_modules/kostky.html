@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kostky &mdash; Hospodský kostky  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Hospodský kostky
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Hospodský kostky</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">Module code</a></li>
+      <li class="breadcrumb-item active">kostky</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for kostky</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pygame</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">load</span> <span class="kn">import</span> <span class="n">rules</span>
+
+<span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">sound1</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s1">&#39;../music/rolling_dice.mp3&#39;</span><span class="p">)</span>
+<span class="n">sound2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s1">&#39;../music/rolling_dice2.mp3&#39;</span><span class="p">)</span>
+<span class="n">sound3</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s1">&#39;../music/rolling_dice3.mp3&#39;</span><span class="p">)</span>
+<span class="n">victory_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s1">&#39;../music/victory_sound.mp3&#39;</span><span class="p">)</span>
+<span class="n">sounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">sound1</span><span class="p">,</span> <span class="n">sound2</span><span class="p">,</span> <span class="n">sound3</span><span class="p">]</span>
+<span class="n">display_info</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Info</span><span class="p">()</span>
+<span class="n">screen_width</span> <span class="o">=</span> <span class="n">display_info</span><span class="o">.</span><span class="n">current_w</span>
+<span class="n">screen_height</span> <span class="o">=</span> <span class="n">display_info</span><span class="o">.</span><span class="n">current_h</span>
+<span class="n">window</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">set_mode</span><span class="p">((</span><span class="n">screen_width</span><span class="p">,</span> <span class="n">screen_height</span><span class="p">),</span> <span class="n">pygame</span><span class="o">.</span><span class="n">FULLSCREEN</span><span class="p">)</span>
+<span class="n">black</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#000000&#39;</span><span class="p">)</span>
+<span class="n">white</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#FFFFFF&#39;</span><span class="p">)</span>
+<span class="n">blue</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#6c8cbf&#39;</span><span class="p">)</span>
+<span class="n">grey</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s1">&#39;#928383&#39;</span><span class="p">)</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
+<span class="n">font2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">74</span><span class="p">)</span>
+<span class="n">fontdsd</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s1">&#39;../font/SEASRN__.ttf&#39;</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
+<span class="n">number_of_players</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">menu</span> <span class="o">=</span> <span class="kc">True</span>
+
+
+<span class="c1"># noinspection PyUnresolvedReferences</span>
+<div class="viewcode-block" id="Board">
+<a class="viewcode-back" href="../kostky.html#kostky.Board">[docs]</a>
+<span class="k">class</span> <span class="nc">Board</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    The board</span>
+
+<span class="sd">    :param dices: a list of all the dices</span>
+<span class="sd">    :type dices: list</span>
+<span class="sd">    :param buttons: a list of all the buttons</span>
+<span class="sd">    :type buttons: list</span>
+<span class="sd">    :param player: current player</span>
+<span class="sd">    :type player: int</span>
+<span class="sd">    :param temp_score_holder: Temporary score holder</span>
+<span class="sd">    :type temp_score_holder: int</span>
+<span class="sd">    :param players: list of all the players</span>
+<span class="sd">    :type counted: list</span>
+<span class="sd">    :param drawable_objects: list of all the drawable objects</span>
+<span class="sd">    :type drawable_objects: list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">POSITIONS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="p">]</span>
+    <span class="n">DIFFPOSS</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.13</span><span class="p">,</span> <span class="s2">&quot;Player 1 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.20</span><span class="p">,</span> <span class="s2">&quot;Player 2 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.27</span><span class="p">,</span> <span class="s2">&quot;Player 3 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.34</span><span class="p">,</span> <span class="s2">&quot;Player 4 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.41</span><span class="p">,</span> <span class="s2">&quot;Player 5 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.48</span><span class="p">,</span> <span class="s2">&quot;Player 6 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.55</span><span class="p">,</span> <span class="s2">&quot;Player 7 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.62</span><span class="p">,</span> <span class="s2">&quot;Player 8 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.69</span><span class="p">,</span> <span class="s2">&quot;Player 9 - 0&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.76</span><span class="p">,</span> <span class="s2">&quot;Player 10 - 0&quot;</span><span class="p">)</span>
+
+    <span class="p">]</span>
+
+<div class="viewcode-block" id="Board.create">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.create">[docs]</a>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates all the objects</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dices</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dice</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">POSITIONS</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span> <span class="o">=</span> <span class="p">[</span><span class="n">ThrowButton</span><span class="p">(</span><span class="s2">&quot;Throw&quot;</span><span class="p">),</span>
+                        <span class="n">NextPlayerButton</span><span class="p">(</span><span class="s2">&quot;Next player&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.015</span><span class="p">),</span>
+                        <span class="n">KeepDiceButton</span><span class="p">(</span><span class="s2">&quot;Keep dice&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.175</span><span class="p">,</span>
+                                       <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">back_color</span><span class="o">=</span><span class="n">black</span><span class="p">),</span>
+                        <span class="n">ResetDiceButton</span><span class="p">(</span><span class="s2">&quot;Reset dice&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.6</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.175</span><span class="p">,</span>
+                                        <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.015</span><span class="p">,</span>
+                                        <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">back_color</span><span class="o">=</span><span class="n">black</span><span class="p">),</span>
+                        <span class="n">PlayAgainButton</span><span class="p">(</span><span class="s2">&quot;Play Again&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">,</span>
+                                        <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.015</span> <span class="o">*</span> <span class="mf">5.3</span><span class="p">,</span>
+                                        <span class="n">visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">back_color</span><span class="o">=</span><span class="n">black</span><span class="p">)</span>
+                        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">:</span>
+            <span class="n">button</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temp_score_holder</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">players</span> <span class="o">=</span> <span class="p">[</span><span class="n">Player</span><span class="p">(</span><span class="s2">&quot;Player 1&quot;</span><span class="p">),</span> <span class="n">Player</span><span class="p">(</span><span class="s2">&quot;Player 2&quot;</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_rec</span> <span class="o">=</span> <span class="n">ScoreDisplay</span><span class="p">(</span><span class="s2">&quot;Temporary score - 0&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">victory_screen</span> <span class="o">=</span> <span class="n">VictoryScreen</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_rec</span> <span class="o">=</span> <span class="n">PlayerDisplay</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is now playing&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_rec</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">player_name_score</span> <span class="o">=</span> <span class="p">[</span><span class="n">ScoreAndPlayers</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">DIFFPOSS</span><span class="p">]</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">draw_names</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drawable_objects</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">,</span> <span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">score_rec</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">player_rec</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">throw_unselected_dices</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Board.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Draws all the objects in the drawable_objects list</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="nb">object</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">drawable_objects</span><span class="p">:</span>
+            <span class="nb">object</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Board.create_menu">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.create_menu">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Creates the menu</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu</span> <span class="o">=</span> <span class="n">Menu</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Board.draw_names">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.draw_names">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Draws all the players</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">player_name_score</span><span class="p">[</span><span class="n">x</span><span class="p">]</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Board.create_players">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.create_players">[docs]</a>
+    <span class="k">def</span> <span class="nf">create_players</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Creates the rest of the players(the first two are hardcoded in)</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">number_of_players</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Player</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Player </span><span class="si">{</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span></div>
+
+        <span class="c1"># for x in range(0,number_of_players):</span>
+        <span class="c1"># print(self.players[x])</span>
+
+<div class="viewcode-block" id="Board.get_position">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.get_position">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Gets the position of the mouse</span>
+
+<span class="sd">        :return: returns the coordinates of the mouse</span>
+<span class="sd">        :rtype: (int,int)</span>
+
+<span class="sd">        :example: get_position(), returns (100,78)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mouse</span><span class="o">.</span><span class="n">get_pos</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Board.get_dice">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.get_dice">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_dice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Gets coordinates of the click of the mouse and checks if the</span>
+<span class="sd">        click is on a dice. If it is it returns what dice it is on.</span>
+
+<span class="sd">        :param x: x coordinates</span>
+<span class="sd">        :type x: int</span>
+<span class="sd">        :param y: y coordinates</span>
+<span class="sd">        :type y: int</span>
+<span class="sd">        :return:  If the coordinates are on a dice it returns the dice value</span>
+<span class="sd">        :rtype: int</span>
+
+<span class="sd">        :example: get_dice(100,100), return 2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">dice</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">dice</span><span class="o">.</span><span class="n">x_end</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">dice</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">dice</span><span class="o">.</span><span class="n">y_end</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">dice</span></div>
+
+
+<div class="viewcode-block" id="Board.get_button">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.get_button">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Gets coordinates of the click of the mouse and checks if the</span>
+<span class="sd">        click is on a button. If it is it returns what button it is on.</span>
+
+<span class="sd">        :param x: x coordinates.</span>
+<span class="sd">        :type x: int</span>
+<span class="sd">        :param y: y coordinates.</span>
+<span class="sd">        :type y: int</span>
+<span class="sd">        :return: If the coordinates are on a button it returns the button it is on.</span>
+<span class="sd">        :rtype: Button</span>
+
+<span class="sd">        :example: get_button(100,100), return Button</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">button</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">button</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">button</span><span class="o">.</span><span class="n">x_end</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="n">button</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="n">button</span><span class="o">.</span><span class="n">y_end</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">button</span></div>
+
+
+<div class="viewcode-block" id="Board.check_all_dices_locked">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.check_all_dices_locked">[docs]</a>
+    <span class="k">def</span> <span class="nf">check_all_dices_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        checks if all the dices are locked, if they are it returns True.</span>
+
+<span class="sd">        :return: If all the dices are locked it returns True, else False</span>
+<span class="sd">        :rtype: Bool</span>
+<span class="sd">        :example: check_all_dices_locked(), return True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dice</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Board.unlock_all_dices">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.unlock_all_dices">[docs]</a>
+    <span class="k">def</span> <span class="nf">unlock_all_dices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        unlocks and uncounts all the dices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">selected</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">counted</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Board.lock_dices">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.lock_dices">[docs]</a>
+    <span class="k">def</span> <span class="nf">lock_dices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        locks all the dices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="Board.unlock_dices">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.unlock_dices">[docs]</a>
+    <span class="k">def</span> <span class="nf">unlock_dices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        unlocks all the dices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+            <span class="n">dice</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Board.throw_unselected_dices">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.throw_unselected_dices">[docs]</a>
+    <span class="k">def</span> <span class="nf">throw_unselected_dices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Throws all the unlocked(unselected) dices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ThrowButton</span><span class="o">.</span><span class="n">sound</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">rolldice</span><span class="p">()</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">dices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">counted</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">delay</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Board.show_next_player_buttons">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.show_next_player_buttons">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_next_player_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the keep dices and reset dices buttons</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">blue</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">blue</span></div>
+
+
+<div class="viewcode-block" id="Board.show_play_again_button">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.show_play_again_button">[docs]</a>
+    <span class="k">def</span> <span class="nf">show_play_again_button</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Shows the play again button</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">blue</span></div>
+
+
+<div class="viewcode-block" id="Board.hide_next_player_buttons">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.hide_next_player_buttons">[docs]</a>
+    <span class="k">def</span> <span class="nf">hide_next_player_buttons</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Hides the keep dices and reset dices buttons</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">black</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">black</span></div>
+
+
+<div class="viewcode-block" id="Board.next_player">
+<a class="viewcode-back" href="../kostky.html#kostky.Board.next_player">[docs]</a>
+    <span class="k">def</span> <span class="nf">next_player</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The current player is changed to the next one.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name_score</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is now playing&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_name_score</span><span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">player_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> is now playing&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw_names</span><span class="p">()</span></div>
+
+
+    <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
+
+
+
+<div class="viewcode-block" id="Dice">
+<a class="viewcode-back" href="../kostky.html#kostky.Dice">[docs]</a>
+<span class="k">class</span> <span class="nc">Dice</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Class that defines all the dices</span>
+
+<span class="sd">    :param x: x coordinates of the button</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the button</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :param value: the value of the dice</span>
+<span class="sd">    :type value: int</span>
+<span class="sd">    :param selected: True if the dice is selected, False if it is not</span>
+<span class="sd">    :type selected: bool</span>
+<span class="sd">    :param counted: True if the dice is counted, False if it is not</span>
+<span class="sd">    :type counted: bool</span>
+<span class="sd">    :param locked: True if the dice is locked, False if it is not</span>
+<span class="sd">    :type locked: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SIZE</span> <span class="o">=</span> <span class="mf">0.08</span>
+    <span class="n">dice_imgs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;locked_imgs&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice1x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice2x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice3x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice4x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice5x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice6x.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">))</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;unlocked_imgs&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice1.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice2.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice3.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">4</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice4.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">5</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice5.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)),</span>
+            <span class="mi">6</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;../foto/dice6.png&#39;</span><span class="p">),</span>
+                                      <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">))</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">selected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">counted</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">locked</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">selected</span> <span class="o">=</span> <span class="n">selected</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">counted</span> <span class="o">=</span> <span class="n">counted</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">locked</span> <span class="o">=</span> <span class="n">locked</span>
+
+<div class="viewcode-block" id="Dice.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.Dice.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        If the dice you clicked on is not selected, it changes the img to be the</span>
+<span class="sd">        selected one and vice versa</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dice_imgs</span><span class="p">[</span><span class="s2">&quot;unlocked_imgs&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">],</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dice_imgs</span><span class="p">[</span><span class="s2">&quot;locked_imgs&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">],</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Dice.rolldice">
+<a class="viewcode-back" href="../kostky.html#kostky.Dice.rolldice">[docs]</a>
+    <span class="k">def</span> <span class="nf">rolldice</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        checks if the dice is locked or not, if not it calls animation to roll the dice.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">selected</span> <span class="o">!=</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">animation</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Dice.animation">
+<a class="viewcode-back" href="../kostky.html#kostky.Dice.animation">[docs]</a>
+    <span class="k">def</span> <span class="nf">animation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        gives the dice a random number and draws them.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">random_number</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">random_number</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Button">
+<a class="viewcode-back" href="../kostky.html#kostky.Button">[docs]</a>
+<span class="k">class</span> <span class="nc">Button</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Class that defines all of the buttons</span>
+
+<span class="sd">    :param text: text on the button</span>
+<span class="sd">    :type text: string</span>
+<span class="sd">    :param color: color of the text</span>
+<span class="sd">    :type color: color</span>
+<span class="sd">    :param back_color: color of the button</span>
+<span class="sd">    :type back_color: color</span>
+<span class="sd">    :param width: width of the button</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the button</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param x: x coordinates of the button</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the button</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :param visible: True if the button is visible, False if it is not</span>
+<span class="sd">    :type visible: bool</span>
+<span class="sd">    :param unlocked: True if you can click the button, False if u cant</span>
+<span class="sd">    :type unlocked: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">back_color</span><span class="o">=</span><span class="n">blue</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.1171875</span><span class="p">,</span>
+                 <span class="n">height</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.10416</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span> <span class="o">+</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.25</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">,</span>
+                 <span class="n">visible</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">unlocked</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">back_color</span> <span class="o">=</span> <span class="n">back_color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="n">visible</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unlocked</span> <span class="o">=</span> <span class="n">unlocked</span>
+
+<div class="viewcode-block" id="Button.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.Button.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        draws all the visible buttons</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">back_color</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">)</span>
+        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Button.hide">
+<a class="viewcode-back" href="../kostky.html#kostky.Button.hide">[docs]</a>
+    <span class="k">def</span> <span class="nf">hide</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        hides the next player buttons</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="Button.show">
+<a class="viewcode-back" href="../kostky.html#kostky.Button.show">[docs]</a>
+    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        shows the next player buttons</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">visible</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ThrowButton">
+<a class="viewcode-back" href="../kostky.html#kostky.ThrowButton">[docs]</a>
+<span class="k">class</span> <span class="nc">ThrowButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ThrowButton.action">
+<a class="viewcode-back" href="../kostky.html#kostky.ThrowButton.action">[docs]</a>
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        If the selected dices are allowed by the rules it throws all the unselected dices</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">rules</span><span class="p">(</span><span class="n">dice_values</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write_dice_to_score</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sound</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">throw_unselected_dices</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ThrowButton.sound">
+<a class="viewcode-back" href="../kostky.html#kostky.ThrowButton.sound">[docs]</a>
+    <span class="k">def</span> <span class="nf">sound</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        plays a random sound of rolling dices</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">random_sound</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">sounds</span><span class="p">)</span>
+        <span class="n">random_sound</span><span class="o">.</span><span class="n">play</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ThrowButton.write_dice_to_score">
+<a class="viewcode-back" href="../kostky.html#kostky.ThrowButton.write_dice_to_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">write_dice_to_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Takes the score from the value of the dices and adds it to the temporary score.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span> <span class="o">=</span> <span class="n">rules</span><span class="p">(</span><span class="n">dice_values</span><span class="p">)</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Temporary score - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+        <span class="n">dice_values</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="NextPlayerButton">
+<a class="viewcode-back" href="../kostky.html#kostky.NextPlayerButton">[docs]</a>
+<span class="k">class</span> <span class="nc">NextPlayerButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NextPlayerButton.action">
+<a class="viewcode-back" href="../kostky.html#kostky.NextPlayerButton.action">[docs]</a>
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the button is unlocked, if yes it checks the combination of the dices with the rules. If it returns</span>
+<span class="sd">        a value it adds the value to the temporary score and adds the temporary score to the players score,</span>
+<span class="sd">        switches to the next player and displays the next player buttons. If the player has achieved 10000 points it</span>
+<span class="sd">        will end the game. If the rules don&#39;t return a value it resets the dices and switches to the next player.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">unlocked</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rules</span><span class="p">(</span><span class="n">dice_values</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unlocked</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span> <span class="o">=</span> <span class="n">rules</span><span class="p">(</span><span class="n">dice_values</span><span class="p">)</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">temp_score_holder</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">set_score</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Temporary score - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">temp_score_holder</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">score</span> <span class="o">&gt;=</span> <span class="mi">10000</span><span class="p">:</span>
+                    <span class="n">board</span><span class="o">.</span><span class="n">victory_screen</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Winner is - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">])</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="n">board</span><span class="o">.</span><span class="n">show_play_again_button</span><span class="p">()</span>
+                    <span class="n">victory_sound</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">board</span><span class="o">.</span><span class="n">show_next_player_buttons</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">next_player</span><span class="p">()</span>
+                <span class="n">dice_values</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">lock_dices</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">dice_values</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">reset_temp_score</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">temp_score_holder</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">next_player</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Temporary score - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">unlock_all_dices</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">throw_unselected_dices</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">unlocked</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="KeepDiceButton">
+<a class="viewcode-back" href="../kostky.html#kostky.KeepDiceButton">[docs]</a>
+<span class="k">class</span> <span class="nc">KeepDiceButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
+<div class="viewcode-block" id="KeepDiceButton.action">
+<a class="viewcode-back" href="../kostky.html#kostky.KeepDiceButton.action">[docs]</a>
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the button is visible, switches to the next player and doesn&#39;t reset the dices. Keep the temporary score.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">temp_score_holder</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">hide_next_player_buttons</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">throw_unselected_dices</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">unlock_dices</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">unlocked</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ResetDiceButton">
+<a class="viewcode-back" href="../kostky.html#kostky.ResetDiceButton">[docs]</a>
+<span class="k">class</span> <span class="nc">ResetDiceButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
+<div class="viewcode-block" id="ResetDiceButton.action">
+<a class="viewcode-back" href="../kostky.html#kostky.ResetDiceButton.action">[docs]</a>
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the button is visible, switches to the next player and resets the dices. Resets the temporary score.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">hide_next_player_buttons</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">score_rec</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Temporary score - </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">players</span><span class="p">[</span><span class="n">board</span><span class="o">.</span><span class="n">player</span><span class="p">]</span><span class="o">.</span><span class="n">temp_score</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">unlock_all_dices</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">throw_unselected_dices</span><span class="p">()</span>
+            <span class="c1"># NextPlayerButton.unlocked = True</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">buttons</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">unlocked</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PlayAgainButton">
+<a class="viewcode-back" href="../kostky.html#kostky.PlayAgainButton">[docs]</a>
+<span class="k">class</span> <span class="nc">PlayAgainButton</span><span class="p">(</span><span class="n">Button</span><span class="p">):</span>
+<div class="viewcode-block" id="PlayAgainButton.action">
+<a class="viewcode-back" href="../kostky.html#kostky.PlayAgainButton.action">[docs]</a>
+    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If the button is visible, it resets the board and send the player back to the menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">visible</span><span class="p">:</span>
+            <span class="k">global</span> <span class="n">menu</span>
+            <span class="n">menu</span> <span class="o">=</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Player">
+<a class="viewcode-back" href="../kostky.html#kostky.Player">[docs]</a>
+<span class="k">class</span> <span class="nc">Player</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Displays the temporary score</span>
+
+<span class="sd">    :param score: score of the player</span>
+<span class="sd">    :type __score: int</span>
+<span class="sd">    :param temp_score: temporary score</span>
+<span class="sd">    :type __temp_score: int</span>
+<span class="sd">    :param name: what the temporary score is</span>
+<span class="sd">    :type name: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Constructor method</span>
+
+<span class="sd">        :param name: name of the player</span>
+<span class="sd">        :type name: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns players name</span>
+
+<span class="sd">        :return: returns the name of the player</span>
+<span class="sd">        :rtype: string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">temp_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns the temporary score</span>
+
+<span class="sd">        :return: Returns the temporary score</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :example: temp_score(), return 150</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span>
+
+    <span class="nd">@temp_score</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">temp_score</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Adds the temporary score to the player score</span>
+
+<span class="sd">        :param: value(int)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span> <span class="o">+=</span> <span class="n">value</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns the player score</span>
+
+<span class="sd">        :return: Returns the player score</span>
+<span class="sd">        :rtype: int</span>
+<span class="sd">        :example: score(), return 800</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__score</span>
+
+<div class="viewcode-block" id="Player.set_score">
+<a class="viewcode-back" href="../kostky.html#kostky.Player.set_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds the temporary score to the players score and resets the temporary score</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__score</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span> <span class="o">=</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="Player.reset_temp_score">
+<a class="viewcode-back" href="../kostky.html#kostky.Player.reset_temp_score">[docs]</a>
+    <span class="k">def</span> <span class="nf">reset_temp_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Resets the temporary score</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__temp_score</span> <span class="o">=</span> <span class="mi">0</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ScoreDisplay">
+<a class="viewcode-back" href="../kostky.html#kostky.ScoreDisplay">[docs]</a>
+<span class="k">class</span> <span class="nc">ScoreDisplay</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Displays the temporary score</span>
+
+<span class="sd">    :param text: what the temporary score is</span>
+<span class="sd">    :type text: string</span>
+<span class="sd">    :param color: color of the rectangle</span>
+<span class="sd">    :type color: color</span>
+<span class="sd">    :param text_color: color of the text</span>
+<span class="sd">    :type text_color: color</span>
+<span class="sd">    :param width: width of the rectangle</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the rectangle</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param x: x coordinates of the rectangle</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the rectangle</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mf">4.2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">/</span> <span class="mf">9.6</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span> <span class="o">=</span> <span class="n">text_color</span>
+
+<div class="viewcode-block" id="ScoreDisplay.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.ScoreDisplay.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the score display rectangle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span><span class="p">)</span>
+        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="PlayerDisplay">
+<a class="viewcode-back" href="../kostky.html#kostky.PlayerDisplay">[docs]</a>
+<span class="k">class</span> <span class="nc">PlayerDisplay</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Shows who&#39;s playing</span>
+
+<span class="sd">    :param text: who is playing</span>
+<span class="sd">    :type text: string</span>
+<span class="sd">    :para m color: color of the rectangle</span>
+<span class="sd">    :type color: color</span>
+<span class="sd">    :param text_color: color of the text</span>
+<span class="sd">    :type text_color: color</span>
+<span class="sd">    :param width: width of the rectangle</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the rectangle</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param x: x coordinates of the rectangle</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the rectangle</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="p">(</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span> <span class="o">=</span> <span class="n">text_color</span>
+
+<div class="viewcode-block" id="PlayerDisplay.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.PlayerDisplay.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the player display rectangle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span><span class="p">)</span>
+        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ScoreAndPlayers">
+<a class="viewcode-back" href="../kostky.html#kostky.ScoreAndPlayers">[docs]</a>
+<span class="k">class</span> <span class="nc">ScoreAndPlayers</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Player display with scores</span>
+
+<span class="sd">    :param x: x coordinates of the rectangles</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the rectangles</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    :param text: player name and score</span>
+<span class="sd">    :type text: string</span>
+<span class="sd">    :param width: width of the rectangles</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the rectangles</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param text_color: color of the text</span>
+<span class="sd">    :type text_color: color</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mf">4.2</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">/</span> <span class="mf">9.6</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">black</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="n">text</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span> <span class="o">=</span> <span class="n">text_color</span>
+
+<div class="viewcode-block" id="ScoreAndPlayers.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.ScoreAndPlayers.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the current players score rectangle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span><span class="p">)</span>
+        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Menu">
+<a class="viewcode-back" href="../kostky.html#kostky.Menu">[docs]</a>
+<span class="k">class</span> <span class="nc">Menu</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Menu class</span>
+
+<span class="sd">    :param color: color of the rectangle</span>
+<span class="sd">    :type color: color</span>
+<span class="sd">    :param text_color: color of the text</span>
+<span class="sd">    :type text_color: color</span>
+<span class="sd">    :param width: width of the rectangle of the start button</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the rectangle of the start button</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param x: x coordinates of the start button</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinates of the start button</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">6</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">/</span> <span class="mf">9.6</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.39</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.38</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Constructor method</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span> <span class="o">=</span> <span class="n">text_color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">menu_run</span> <span class="o">=</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="Menu.draw_text">
+<a class="viewcode-back" href="../kostky.html#kostky.Menu.draw_text">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Draws the menu screen</span>
+
+<span class="sd">        :param text: the text that will be displayed</span>
+<span class="sd">        :type text: string</span>
+<span class="sd">        :param font: font of the text</span>
+<span class="sd">        :type font: font</span>
+<span class="sd">        :param x: x coordinates of the text</span>
+<span class="sd">        :type x: int</span>
+<span class="sd">        :param y: y coordinates of the text</span>
+<span class="sd">        :type y: int</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">textobj</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">y</span> <span class="o">==</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">:</span>
+            <span class="n">textrect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">4</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">textrect</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">textobj</span><span class="p">,</span> <span class="n">textrect</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Menu.get_start">
+<a class="viewcode-back" href="../kostky.html#kostky.Menu.get_start">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_start</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Gets coordinates of the click of the mouse and checks if the</span>
+<span class="sd">        click is on a button. If it is it returns what button it is on.</span>
+
+<span class="sd">        :param x: x coordinates of the click</span>
+<span class="sd">        :type x: int</span>
+<span class="sd">        :param y: y coordinates of the click</span>
+<span class="sd">        :type y: int</span>
+<span class="sd">        :return: If the click is inside the rectangle, return True</span>
+<span class="sd">        :rtype: Bool</span>
+<span class="sd">        :example: get_start(), return True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="VictoryScreen">
+<a class="viewcode-back" href="../kostky.html#kostky.VictoryScreen">[docs]</a>
+<span class="k">class</span> <span class="nc">VictoryScreen</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    Victory screen class</span>
+
+<span class="sd">    :param color: color of the rectangle</span>
+<span class="sd">    :type color: color</span>
+<span class="sd">    :param text_color: color of the text</span>
+<span class="sd">    :type text_color: color</span>
+<span class="sd">    :param width: width of the rectangle</span>
+<span class="sd">    :type width: int</span>
+<span class="sd">    :param height: height of the rectangle</span>
+<span class="sd">    :type height: int</span>
+<span class="sd">    :param x: x coordinate of the rectangle</span>
+<span class="sd">    :type x: int</span>
+<span class="sd">    :param y: y coordinate of the rectangle</span>
+<span class="sd">    :type y: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">blue</span><span class="p">,</span> <span class="n">text_color</span><span class="o">=</span><span class="n">black</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">3</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">12</span><span class="p">,</span>
+                 <span class="n">x</span><span class="o">=</span><span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">-</span> <span class="p">(</span><span class="n">screen_width</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                 <span class="n">y</span><span class="o">=</span><span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.85</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor method</span>
+<span class="sd">       &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x_end</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y_end</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">color</span> <span class="o">=</span> <span class="n">color</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span> <span class="o">=</span> <span class="n">text_color</span>
+
+<div class="viewcode-block" id="VictoryScreen.draw">
+<a class="viewcode-back" href="../kostky.html#kostky.VictoryScreen.draw">[docs]</a>
+    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Draws the play again rectangle</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pygame</span><span class="o">.</span><span class="n">draw</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">window</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">border_radius</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text_color</span><span class="p">)</span>
+        <span class="n">text_rect</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">get_rect</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">//</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">text_rect</span><span class="p">)</span></div>
+</div>
+
+
+
+<span class="n">board</span> <span class="o">=</span> <span class="n">Board</span><span class="p">()</span>
+<span class="n">board</span><span class="o">.</span><span class="n">create_menu</span><span class="p">()</span>
+<span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+<span class="n">dice_values</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">FirstDiceCounter</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">end</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">createnumber</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">running</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">while</span> <span class="n">running</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">menu</span><span class="p">:</span>
+        <span class="n">createnumber</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">window</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">black</span><span class="p">)</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s1">&#39;Pub Dice&#39;</span><span class="p">,</span> <span class="n">font2</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.2</span><span class="p">)</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Number of Players: </span><span class="si">{</span><span class="n">number_of_players</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">font2</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.30</span><span class="p">,</span>
+                             <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">)</span>
+        <span class="n">board</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="n">font2</span><span class="p">,</span> <span class="n">white</span><span class="p">,</span> <span class="n">screen_width</span> <span class="o">*</span> <span class="mf">0.43</span><span class="p">,</span> <span class="n">screen_height</span> <span class="o">*</span> <span class="mf">0.4</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span><span class="p">:</span>
+                <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">:</span>
+                    <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_UP</span> <span class="ow">or</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_RIGHT</span><span class="p">:</span>
+                    <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">number_of_players</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_DOWN</span> <span class="ow">or</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_LEFT</span><span class="p">:</span>
+                    <span class="n">number_of_players</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">number_of_players</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">menu</span><span class="o">.</span><span class="n">get_start</span><span class="p">(</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">get_position</span><span class="p">()):</span>
+                    <span class="n">menu</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">pygame</span><span class="o">.</span><span class="n">event</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">createnumber</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">window</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">black</span><span class="p">)</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+                <span class="n">board</span><span class="o">.</span><span class="n">create_players</span><span class="p">()</span>
+                <span class="n">createnumber</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">QUIT</span> <span class="ow">or</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span> <span class="ow">and</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_ESCAPE</span><span class="p">:</span>
+                <span class="n">running</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">KEYDOWN</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">key</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">K_SPACE</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">elif</span> <span class="n">event</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">pygame</span><span class="o">.</span><span class="n">MOUSEBUTTONDOWN</span><span class="p">:</span>
+                <span class="n">dice</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">get_dice</span><span class="p">(</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">get_position</span><span class="p">())</span>
+                <span class="n">button</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">get_button</span><span class="p">(</span><span class="o">*</span><span class="n">board</span><span class="o">.</span><span class="n">get_position</span><span class="p">())</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">button</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dice</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dice</span><span class="o">.</span><span class="n">counted</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">dice</span><span class="o">.</span><span class="n">locked</span><span class="p">:</span>
+                    <span class="n">dice</span><span class="o">.</span><span class="n">selected</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">dice</span><span class="o">.</span><span class="n">selected</span>
+                    <span class="c1"># print(dice.value)</span>
+                    <span class="k">if</span> <span class="n">dice</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
+                        <span class="n">dice_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">dice_values</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">dice</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">dice</span> <span class="ow">in</span> <span class="n">board</span><span class="o">.</span><span class="n">dices</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                        <span class="c1"># dice.draw()S</span>
+                <span class="k">elif</span> <span class="n">button</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">board</span><span class="o">.</span><span class="n">check_all_dices_locked</span><span class="p">():</span>
+                        <span class="k">if</span> <span class="n">rules</span><span class="p">(</span><span class="n">dice_values</span><span class="p">):</span>
+                            <span class="n">board</span><span class="o">.</span><span class="n">unlock_all_dices</span><span class="p">()</span>
+                    <span class="n">button</span><span class="o">.</span><span class="n">action</span><span class="p">()</span>
+            <span class="n">board</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+            <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+        <span class="c1"># i = 0</span>
+        <span class="c1"># while i &lt; 100:</span>
+        <span class="c1">#     # Your code here</span>
+        <span class="c1">#     Dice.rolldice()</span>
+        <span class="c1">#     i += 1</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, David Singer.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

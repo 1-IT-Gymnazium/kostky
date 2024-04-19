@@ -77,7 +77,7 @@ class Board:
         self.buttons = [
             ThrowButton("Throw"),
             NextPlayerButton(
-                "Next player", y=screen_height * 0.5 + screen_width * 0.015
+                "Next player", y=screen_height * 0.5 + screen_width * 0.025
             ),
             KeepDiceButton(
                 "Keep dice",
@@ -89,14 +89,14 @@ class Board:
             ResetDiceButton(
                 "Reset dice",
                 x=screen_width * 0.6 + screen_width * 0.175,
-                y=screen_height * 0.5 + screen_width * 0.015,
+                y=screen_height * 0.5 + screen_width * 0.025,
                 visible=False,
                 back_color=black,
             ),
             PlayAgainButton(
                 "Play Again",
                 x=screen_width * 0.4 + screen_width * 0.25,
-                y=screen_height * 0.5 + screen_width * 0.015 * 5.3,
+                y=screen_height * 0.5 + screen_width * 0.015 * 5.3 +  screen_width * 0.025,
                 visible=False,
                 back_color=black,
             ),
@@ -576,7 +576,7 @@ class NextPlayerButton(Button):
                     f"Temporary score - {str(board.temp_score_holder)}"
                 )
                 board.score_rec.draw()
-                if board.players[board.player].score >= 10000:
+                if board.players[board.player].score >= 10:
                     board.victory_screen.draw(
                         f"Winner is - {str(board.players[board.player])}"
                     )

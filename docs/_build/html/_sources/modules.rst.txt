@@ -1,5 +1,5 @@
-maths
-=====
+src
+===
 
 .. toctree::
    :maxdepth: 4

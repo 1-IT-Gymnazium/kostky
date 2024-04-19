@@ -4,10 +4,10 @@ import random
 from load import rules
 
 pygame.init()
-sound1 = pygame.mixer.Sound("../music/rolling_dice.mp3")
-sound2 = pygame.mixer.Sound("../music/rolling_dice2.mp3")
-sound3 = pygame.mixer.Sound("../music/rolling_dice3.mp3")
-victory_sound = pygame.mixer.Sound("../music/victory_sound.mp3")
+sound1 = pygame.mixer.Sound("music/rolling_dice.mp3")
+sound2 = pygame.mixer.Sound("music/rolling_dice2.mp3")
+sound3 = pygame.mixer.Sound("music/rolling_dice3.mp3")
+victory_sound = pygame.mixer.Sound("music/victory_sound.mp3")
 sounds = [sound1, sound2, sound3]
 display_info = pygame.display.Info()
 screen_width = display_info.current_w
@@ -21,7 +21,7 @@ blue = pygame.color.Color("#6c8cbf")
 grey = pygame.color.Color("#928383")
 font = pygame.font.Font(None, 36)
 font2 = pygame.font.Font(None, 74)
-fontdsd = pygame.font.Font("../font/SEASRN__.ttf", 36)
+fontdsd = pygame.font.Font("font/SEASRN__.ttf", 36)
 number_of_players = 2
 menu = True
 
@@ -338,53 +338,53 @@ class Dice:
     dice_imgs = {
         "locked_imgs": {
             1: pygame.transform.scale(
-                pygame.image.load("../foto/dice1x.png"),
+                pygame.image.load("foto/dice1x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             2: pygame.transform.scale(
-                pygame.image.load("../foto/dice2x.png"),
+                pygame.image.load("foto/dice2x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             3: pygame.transform.scale(
-                pygame.image.load("../foto/dice3x.png"),
+                pygame.image.load("foto/dice3x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             4: pygame.transform.scale(
-                pygame.image.load("../foto/dice4x.png"),
+                pygame.image.load("foto/dice4x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             5: pygame.transform.scale(
-                pygame.image.load("../foto/dice5x.png"),
+                pygame.image.load("foto/dice5x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             6: pygame.transform.scale(
-                pygame.image.load("../foto/dice6x.png"),
+                pygame.image.load("foto/dice6x.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
         },
         "unlocked_imgs": {
             1: pygame.transform.scale(
-                pygame.image.load("../foto/dice1.png"),
+                pygame.image.load("foto/dice1.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             2: pygame.transform.scale(
-                pygame.image.load("../foto/dice2.png"),
+                pygame.image.load("foto/dice2.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             3: pygame.transform.scale(
-                pygame.image.load("../foto/dice3.png"),
+                pygame.image.load("foto/dice3.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             4: pygame.transform.scale(
-                pygame.image.load("../foto/dice4.png"),
+                pygame.image.load("foto/dice4.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             5: pygame.transform.scale(
-                pygame.image.load("../foto/dice5.png"),
+                pygame.image.load("foto/dice5.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
             6: pygame.transform.scale(
-                pygame.image.load("../foto/dice6.png"),
+                pygame.image.load("foto/dice6.png"),
                 (SIZE * screen_width, SIZE * screen_width),
             ),
         },

@@ -576,7 +576,7 @@ class NextPlayerButton(Button):
                     f"Temporary score - {str(board.temp_score_holder)}"
                 )
                 board.score_rec.draw()
-                if board.players[board.player].score >= 10:
+                if board.players[board.player].score >= 10000:
                     board.victory_screen.draw(
                         f"Winner is - {str(board.players[board.player])}"
                     )

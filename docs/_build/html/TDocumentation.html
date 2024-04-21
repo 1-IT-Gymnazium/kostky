@@ -45,13 +45,37 @@
     <code>kostky.py</code> has a couple of main classes:
     <ul>
       <li><code>Board</code>: The main class that loads all of the assets that are used in the game and has most of the methods that are used.</li>
-      <li><code>Dice</code>: The Dice class encapsulates various functionalities related to managing individual dice objects within the game. Here's a breakdown of its main functionalities:</li>
-      <li><code>Button</code>: The class has</li>
+      <li><code>Dice</code>: The Dice class encapsulates various functionalities related to managing individual dice objects within the game</li>
+      <li><code>Button</code>: The Button class has</li>
     </ul>
   </section>
       <section id="Description of Main Functionalities, Service Description">
         <h2>Description of Main Functionalities, Service Description</h2>
         <ul>
+        <p><strong>Board Class:</strong></p>
+        </ul>
+        <ul>
+          <li><strong>Initialization:</strong> Initializes the board with dices, buttons, players, and other necessary components. Creates objects such as dices, buttons, players, score displays, etc., and initializes their attributes</li>
+          <li><strong>Drawing:</strong> Draws all the objects on the board, including dices, buttons, and player-related information.</li>
+          <li><strong>Menu Creation:</strong> Creates the menu for the game.</li>
+          <li><strong>Player Management:</strong> Manages the current player and switches to the next player when necessary. Manages the current player and switches to the next player when necessary.</li>
+          <li><strong>Input Handling:</strong> Retrieves mouse coordinates and determines if a click is on a dice or a button. Handles mouse clicks on dices and buttons, triggering appropriate actions.</li>
+          <li><strong>Dice Management::</strong> Manages the state of dices, including locking, unlocking, and rolling. Handles scenarios such as throwing unselected dices and checking if all dices are locked.</li>
+          <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+          <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+          <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+          <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+      </ul>
+      <ul>
+        <p><strong>Button</Button> Class:</strong></p>
+        </ul>
+        <ul>
+        <li><strong>Initialization:</strong> The constructor method __init__ initializes a dice object with specified attributes such as its position (x, y), value, and flags indicating whether it's selected, counted, or locked.</li>
+        <li><strong>Drawing:</strong> The draw method is responsible for rendering the dice on the screen. It dynamically selects the appropriate image based on whether the dice is selected or not and blits it onto the game window.</li>
+        <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+        <li><strong>Animation:</strong> The animation method simulates the rolling animation of the dice. It generates a random number between 1 and 6, representing the value of the dice, updates the dice's value, and redraws it on the screen accordingly.</li>
+      </ul>
+      <ul>
         <p><strong>Dice Class:</strong></p>
         </ul>
         <ul>

@@ -16,7 +16,7 @@
         <a href="index.html" class="icon icon-home"> JUMPY </a>
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
           <ul class="current">
-            <li class="toctree-l1 current"><a class="reference internal" href="#clouds-module">Clouds Module</a></li>
+            <li class="toctree-l1 current"><a class="reference internal" href="#Technical Documentation">Technical Documentation</a></li>
           </ul>
         </div>
       </div>
@@ -26,15 +26,45 @@
         <div class="rst-content">
           <div role="main" class="document">
             <div itemprop="articleBody">
-              <section id="clouds-module">
-                <h1>Clouds Module Documentation</h1>
-<section id="introduction-clouds">
-  <h2>Introduction</h2>
-  <p>The <code>clouds.py</code> module is dedicated to managing cloud entities within a game environment. It enhances the visual aesthetics by simulating realistic cloud movement and parallax effects in the game's backgrounds or skies.</p>
+              <section id="Technical Documentation">
+                <h1>Technical Documentation</h1>
+<section id="introduction">
+  <h1>Introduction</h1>
+  <p>Welcome to Pub Dice, a pc game based on the pub game ones and fives. 
+    It is a hot seat game, which means all of the players take turns playing on a single device.
+    The game was made in python using the pygame library.
+  </p>
+</section>
+<section id="Main Software Parts / Modules and Their Connections">
+  <h2>Main Software Parts / Modules and Their Connections</h2>
+  <p>The application consists of two modules. A rules module named <code>load.py</code> and a module for the whole game named <code>kostky.py</code>. 
+    <code>load.py</code> only has one method:
+    <ul>
+      <li><code>Rules()</code>: Gets a list of values from <code>kostky.py</code> and then returns the score for that combination of values, if the combinations is invalid it returns none.</li>
+    </ul>
+    <code>kostky.py</code> has a couple of main classes:
+    <ul>
+      <li><code>Board</code>: The main class that loads all of the assets that are used in the game and has most of the methods that are used.</li>
+      <li><code>Dice</code>: The Dice class encapsulates various functionalities related to managing individual dice objects within the game. Here's a breakdown of its main functionalities:</li>
+      <li><code>Button</code>: The class has</li>
+    </ul>
+  </section>
+      <section id="Description of Main Functionalities, Service Description">
+        <h2>Description of Main Functionalities, Service Description</h2>
+        <ul>
+        <p><strong>Dice Class:</strong></p>
+        </ul>
+        <ul>
+        <li><strong>Initialization:</strong> The constructor method __init__ initializes a dice object with specified attributes such as its position (x, y), value, and flags indicating whether it's selected, counted, or locked.</li>
+        <li><strong>Drawing:</strong> The draw method is responsible for rendering the dice on the screen. It dynamically selects the appropriate image based on whether the dice is selected or not and blits it onto the game window.</li>
+        <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+        <li><strong>Animation:</strong> The animation method simulates the rolling animation of the dice. It generates a random number between 1 and 6, representing the value of the dice, updates the dice's value, and redraws it on the screen accordingly.</li>
+      </ul>
+      </section>
+  </p>
 </section>
 
 
-              </section>
             </div>
           </div>
         </div>

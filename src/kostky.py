@@ -96,7 +96,9 @@ class Board:
             PlayAgainButton(
                 "Play Again",
                 x=screen_width * 0.4 + screen_width * 0.25,
-                y=screen_height * 0.5 + screen_width * 0.015 * 5.3 +  screen_width * 0.025,
+                y=screen_height * 0.5
+                + screen_width * 0.015 * 5.3
+                + screen_width * 0.025,
                 visible=False,
                 back_color=black,
             ),
@@ -198,17 +200,18 @@ class Board:
     def get_button(self, x, y):
         """
 
-        Gets coordinates of the click of the mouse and checks if the
-        click is on a button. If it is it returns what button it is on.
+                Gets coordinates of the click of the mouse and checks if the
+                click is on a button. If it is it returns what button it is on.
 
-        :param x: x coordinates.
-        :type x: int
-        :param y: y coordinates.
-        :type y: int
-        :return: If the coordinates are on a button it returns the button it is on.
-        :rtype: Button
+                :param x: x coordinates.
+                :type x: int
+                :param y: y coordinates.
+                :type y: int
+                :return: If the coordinates are on a
+                button it returns the button it is on.
+                :rtype: Button
 
-        :example: get_button(100,100), return Button
+                :example: get_button(100,100), return Button
         """
         for button in self.buttons:
             if (x >= button.x and x <= button.x_end) and (
@@ -782,11 +785,11 @@ class ScoreDisplay:
 class PlayerDisplay:
     """
 
-    Shows who's playing
+    Player class, keeps score and name of all the players
 
     :param text: who is playing
     :type text: string
-    :para m color: color of the rectangle
+    :param color: color of the rectangle
     :type color: color
     :param text_color: color of the text
     :type text_color: color

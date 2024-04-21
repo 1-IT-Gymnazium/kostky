@@ -77,10 +77,10 @@
 <span class="kn">from</span> <span class="nn">load</span> <span class="kn">import</span> <span class="n">rules</span>
 
 <span class="n">pygame</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-<span class="n">sound1</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;../music/rolling_dice.mp3&quot;</span><span class="p">)</span>
-<span class="n">sound2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;../music/rolling_dice2.mp3&quot;</span><span class="p">)</span>
-<span class="n">sound3</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;../music/rolling_dice3.mp3&quot;</span><span class="p">)</span>
-<span class="n">victory_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;../music/victory_sound.mp3&quot;</span><span class="p">)</span>
+<span class="n">sound1</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;music/rolling_dice.mp3&quot;</span><span class="p">)</span>
+<span class="n">sound2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;music/rolling_dice2.mp3&quot;</span><span class="p">)</span>
+<span class="n">sound3</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;music/rolling_dice3.mp3&quot;</span><span class="p">)</span>
+<span class="n">victory_sound</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">mixer</span><span class="o">.</span><span class="n">Sound</span><span class="p">(</span><span class="s2">&quot;music/victory_sound.mp3&quot;</span><span class="p">)</span>
 <span class="n">sounds</span> <span class="o">=</span> <span class="p">[</span><span class="n">sound1</span><span class="p">,</span> <span class="n">sound2</span><span class="p">,</span> <span class="n">sound3</span><span class="p">]</span>
 <span class="n">display_info</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Info</span><span class="p">()</span>
 <span class="n">screen_width</span> <span class="o">=</span> <span class="n">display_info</span><span class="o">.</span><span class="n">current_w</span>
@@ -94,7 +94,7 @@
 <span class="n">grey</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">color</span><span class="o">.</span><span class="n">Color</span><span class="p">(</span><span class="s2">&quot;#928383&quot;</span><span class="p">)</span>
 <span class="n">font</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
 <span class="n">font2</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="mi">74</span><span class="p">)</span>
-<span class="n">fontdsd</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;../font/SEASRN__.ttf&quot;</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
+<span class="n">fontdsd</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;font/SEASRN__.ttf&quot;</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
 <span class="n">number_of_players</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">menu</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -467,53 +467,53 @@
     <span class="n">dice_imgs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;locked_imgs&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="mi">1</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice1x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice1x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">2</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice2x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice2x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">3</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice3x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice3x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">4</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice4x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice4x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">5</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice5x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice5x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">6</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice6x.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice6x.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
         <span class="p">},</span>
         <span class="s2">&quot;unlocked_imgs&quot;</span><span class="p">:</span> <span class="p">{</span>
             <span class="mi">1</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice1.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice1.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">2</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice2.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice2.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">3</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice3.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice3.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">4</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice4.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice4.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">5</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice5.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice5.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
             <span class="mi">6</span><span class="p">:</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span>
-                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;../foto/dice6.png&quot;</span><span class="p">),</span>
+                <span class="n">pygame</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;foto/dice6.png&quot;</span><span class="p">),</span>
                 <span class="p">(</span><span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">,</span> <span class="n">SIZE</span> <span class="o">*</span> <span class="n">screen_width</span><span class="p">),</span>
             <span class="p">),</span>
         <span class="p">},</span>

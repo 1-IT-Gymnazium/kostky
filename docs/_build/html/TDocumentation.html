@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Module Documentation - Hospodský kostky</title>
+  <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+  <script src="_static/jquery.js?v=5d32c60e"></script>
+  <script src="_static/js/theme.js"></script>
+</head>
+<body class="wy-body-for-nav">
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <a href="index.html" class="icon icon-home"> Hospodský kostky </a>
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+          <ul class="current">
+            <li class="toctree-l1 current"><a class="reference internal" href="#Technical Documentation">Technical Documentation</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="main" class="document">
+            <div itemprop="articleBody">
+              <section id="Technical Documentation">
+                <h1>Technical Documentation</h1>
+<section id="introduction">
+  <h1>Introduction</h1>
+  <p>Welcome to Pub Dice, a pc game based on the pub game ones and fives. 
+    It is a hot seat game, which means all of the players take turns playing on a single device.
+    The game was made in python using the pygame library.
+  </p>
+</section>
+<section id="Main Software Parts / Modules and Their Connections">
+  <h2>Main Software Parts / Modules and Their Connections</h2>
+  <p>The application consists of two modules. A rules module named <code>load.py</code> and a module for the whole game named <code>kostky.py</code>. 
+    <code>load.py</code> only has one method:
+    <ul>
+      <li><code>Rules()</code>: Gets a list of values from <code>kostky.py</code> and then returns the score for that combination of values, if the combinations is invalid it returns none.</li>
+    </ul>
+    <code>kostky.py</code> has a couple of main classes:
+    <ul>
+      <li><code>Board</code>: The main class that loads all of the assets that are used in the game and has most of the methods that are used.</li>
+      <li><code>Dice</code>: The Dice class encapsulates various functionalities related to managing individual dice objects within the game</li>
+      <li><code>Button</code>: The Button class encapsulates various functionalities related to managing individual button actions within the game</li>
+    </ul>
+  </section>
+      <section id="Description of Main Functionalities, Service Description">
+        <h2>Description of Main Functionalities, Service Description</h2>
+        <ul>
+        <p><strong>Board Class:</strong></p>
+        </ul>
+        <ul>
+          <li><strong>Initialization:</strong> Initializes the board with dices, buttons, players, and other necessary components. Creates objects such as dices, buttons, players, score displays, etc., and initializes their attributes</li>
+          <li><strong>Drawing:</strong> Draws all the objects on the board, including dices, buttons, and player-related information.</li>
+          <li><strong>Menu Creation:</strong> Creates the menu for the game.</li>
+          <li><strong>Player Management:</strong> Manages the current player and switches to the next player when necessary. Manages the current player and switches to the next player when necessary.</li>
+          <li><strong>Input Handling:</strong> Retrieves mouse coordinates and determines if a click is on a dice or a button. Handles mouse clicks on dices and buttons, triggering appropriate actions.</li>
+          <li><strong>Dice Management::</strong> Manages the state of dices, including locking, unlocking, and rolling. Handles scenarios such as throwing unselected dices and checking if all dices are locked.</li>
+          <li><strong>Button Actions:</strong> Defines actions associated with buttons, such as throwing dices, keeping dices, resetting dices, and playing again.</li>
+          <li><strong>Score Tracking:</strong> Keeps track of temporary scores and updates them as the game progresses. Displays temporary scores and final scores for each player.</li>
+          <li><strong>UI Interaction:</strong> Shows or hides buttons based on game state and player actions. Updates UI elements to reflect changes in game state.</li>
+          <li><strong>Victory Screen:</strong> Manages the victory screen display when a player wins the game.</li>
+      </ul>
+      <ul>
+        <p><strong>Button</Button> Class:</strong></p>
+        </ul>
+        <ul>
+          <li><strong>Initialization:</strong>Initializes the button with parameters such as text, colors, dimensions, position, visibility, and unlock status.</li>
+          <li><strong>Drawing:</strong>Draws the button on the screen with the specified text, color, and dimensions.</li>
+          <li><strong>Visibility Management:</strong>Allows hiding and showing buttons based on game state or player actions.</li>
+          <li><strong>Action Handling:</strong> Defines actions associated with button clicks. Subclasses implement specific actions for different types of buttons.</li>
+          <li><strong>Sound Effects:</strong> Plays sound effects associated with button actions, such as rolling dices.</li>
+          <li><strong>Score Handling:</strong> Writes the score derived from dice values to the temporary score holder. Updates the score display with the temporary score.</li>
+          <li><strong>Player Management:</strong>Switches to the next player when appropriate. Updates player scores and checks for victory conditions.</li>
+          <li><strong>Dice Management:</strong> Controls the state of dices, including locking, counting, and resetting. Throws unselected dices based on game rules.</li>
+          <li><strong>Game Ending:</strong> Ends the game and displays the victory screen if a player achieves the winning condition. Provides an option to play again, resetting the board and returning to the menu.</li>
+          <li><strong>Menu Navigation:</strong>Redirects players back to the menu when necessary.</li>
+      </ul>
+      <ul>
+        <p><strong>Dice Class:</strong></p>
+        </ul>
+        <ul>
+        <li><strong>Initialization:</strong> The constructor method __init__ initializes a dice object with specified attributes such as its position (x, y), value, and flags indicating whether it's selected, counted, or locked.</li>
+        <li><strong>Drawing:</strong> The draw method is responsible for rendering the dice on the screen. It dynamically selects the appropriate image based on whether the dice is selected or not and blits it onto the game window.</li>
+        <li><strong>Rolling the Dice:</strong> The rolldice method handles rolling the dice. It checks if the dice is locked; if not, it initiates the animation to roll the dice.</li>
+        <li><strong>Animation:</strong> The animation method simulates the rolling animation of the dice. It generates a random number between 1 and 6, representing the value of the dice, updates the dice's value, and redraws it on the screen accordingly.</li>
+      </ul>
+      </section>
+      <section id="error-handling-entities">
+        <h2>Error Handling</h2>
+        <p>These modules does not currently include explicit error handling mechanisms.</p>
+      </section>
+      <section id="environment-entities">
+        <h2>Environment</h2>
+        <p>These modules are implemented for use within a Python game development environment, utilizing <code>pygame</code> for handling graphics and more.</p>
+      </section>
+    </p>
+    <section id="source-location-entities">
+      <h2>Source Code Location</h2>
+      <p>The source code is located within the <code>kostky.py</code> and <code>load.py</code> files.</p>
+    </section>
+    <section id="technologies-entities">
+      <h2>Technologies Used</h2>
+      <p>- Python: The core programming language used for implementing the modules.
+      <br>- Pygame: Utilized for all graphical and interactive elements within the game, such as rendering objects.</p>
+    </section>
+    <section id="Sources">
+      <h2>Sources</h2>
+      <p> <a href="https://www.pygame.org/docs/" target="_blank">Pygame Documentation</a></p>
+      
+    </section>
+</section>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+    jQuery(function () {
+        SphinxRtdTheme.Navigation.enable(true);
+    });
+  </script>
+</body>
+</html>

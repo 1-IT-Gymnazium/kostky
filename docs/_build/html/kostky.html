@@ -180,7 +180,7 @@
 <li><p><strong>buttons</strong> (<em>list</em>) – a list of all the buttons</p></li>
 <li><p><strong>player</strong> (<em>int</em>) – current player</p></li>
 <li><p><strong>temp_score_holder</strong> (<em>int</em>) – Temporary score holder</p></li>
-<li><p><strong>players</strong> – list of all the players</p></li>
+<li><p><strong>players</strong> (<em>list</em>) – list of all the players</p></li>
 <li><p><strong>drawable_objects</strong> (<em>list</em>) – list of all the drawable objects</p></li>
 </ul>
 </dd>
@@ -434,7 +434,7 @@ click is on a dice. If it is it returns what dice it is on.</p>
 <dt class="sig sig-object py" id="kostky.Dice.draw">
 <span class="sig-name descname"><span class="pre">draw</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Dice.draw"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Dice.draw" title="Link to this definition"></a></dt>
 <dd><p>If the dice you clicked on is not selected, it changes the img to be the
-selected one and vice versa</p>
+selected one and vice versa.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -547,7 +547,7 @@ will end the game. If the rules don’t return a value it resets the dices and s
 <dt class="sig sig-object py" id="kostky.Player">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kostky.</span></span><span class="sig-name descname"><span class="pre">Player</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/kostky.html#Player"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#kostky.Player" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Displays the temporary score</p>
+<p>Player class, keeps score and name of all the players</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -614,6 +614,7 @@ will end the game. If the rules don’t return a value it resets the dices and s
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>text</strong> (<em>string</em>) – who is playing</p></li>
+<li><p><strong>color</strong> (<em>color</em>) – of the rectangle</p></li>
 <li><p><strong>text_color</strong> (<em>color</em>) – color of the text</p></li>
 <li><p><strong>width</strong> (<em>int</em>) – width of the rectangle</p></li>
 <li><p><strong>height</strong> (<em>int</em>) – height of the rectangle</p></li>
@@ -621,8 +622,6 @@ will end the game. If the rules don’t return a value it resets the dices and s
 <li><p><strong>y</strong> (<em>int</em>) – y coordinates of the rectangle</p></li>
 </ul>
 </dd>
-<dt class="field-even">Para m color<span class="colon">:</span></dt>
-<dd class="field-even"><p>color of the rectangle</p>
 </dd>
 </dl>
 <dl class="py method">
